@@ -1,0 +1,2309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Reporte Diario - La Ocanera</title>
+<meta name="theme-color" content="#BC3440">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="La Ocanera">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+/* ==== LA OCANERA - PALETA OFICIAL ==== */
+/* Rojo primario: #BC3440 | Rojo vivo: #E33840 | Crema: #F5F2DF */
+/* Verde teal: #54A07F | Verde claro: #D2E391 | Verde vivo: #9CC74C | Verde oliva: #92B84A */
+/* Amarillo: #F9D25D | Amarillo oscuro: #F7C93C | Oro: #D8A83A | Azul: #375090 */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;font-size:18px;color:#1a1a1a;background:#F5F2DF}
+body{min-height:100vh;padding-bottom:110px}
+.header{background:linear-gradient(135deg,#BC3440 0%,#E33840 70%,#BC3440 100%);color:#fff;padding:14px 18px;box-shadow:0 3px 14px rgba(0,0,0,.22);position:sticky;top:0;z-index:100;border-bottom:5px solid #F7C93C;position:relative;overflow:hidden}
+.header::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:3px;background:linear-gradient(90deg,transparent,#D8A83A,transparent);opacity:.7}
+.header-logo{height:64px;width:auto;flex:0 0 auto;filter:drop-shadow(0 2px 5px rgba(0,0,0,.32)) brightness(1.02)}
+.header h1{font-size:19px;font-weight:800;margin:0;line-height:1.15;letter-spacing:.4px;text-shadow:0 1px 2px rgba(0,0,0,.15)}
+.header .subtitle{font-size:12px;opacity:.92;margin-top:3px;font-weight:500;letter-spacing:.2px}
+body.s-casona .header{background:linear-gradient(135deg,#54A07F,#9CC74C);border-bottom-color:#F7C93C}
+body.s-fabrica .header{background:linear-gradient(135deg,#BC3440,#E33840);border-bottom-color:#F7C93C}
+body.s-valledupar .header{background:linear-gradient(135deg,#375090,#5B77C4);border-bottom-color:#F7C93C}
+.header-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.header-left{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.header-left .txt{min-width:0}
+.back-btn{background:rgba(255,255,255,.22);border:none;color:#fff;font-size:14px;font-weight:700;cursor:pointer;padding:7px 14px;border-radius:10px;font-family:inherit}
+.back-btn:active{background:rgba(255,255,255,.35)}
+.steps{display:flex;justify-content:space-between;max-width:600px;margin:12px auto;padding:0 18px;gap:6px}
+.step-dot{flex:1;height:7px;border-radius:4px;background:#D8DDE7}
+.step-dot.done{background:#BC3440}
+.step-dot.current{background:#F7C93C}
+body.s-casona .step-dot.done{background:#54A07F}
+body.s-fabrica .step-dot.done{background:#BC3440}
+body.s-valledupar .step-dot.done{background:#375090}
+.page{max-width:640px;margin:0 auto;padding:12px 16px 20px}
+.brand-hero{text-align:center;margin:8px 0 14px;padding:10px 0}
+.brand-hero-logo{max-width:280px;width:82%;height:auto;filter:drop-shadow(0 6px 14px rgba(188,52,64,.18)) drop-shadow(0 2px 4px rgba(0,0,0,.08))}
+.brand-hero-badge{display:inline-block;margin-top:10px;padding:6px 14px;background:linear-gradient(135deg,#BC3440,#E33840);color:#fff;font-size:11.5px;font-weight:700;border-radius:20px;letter-spacing:.4px;text-transform:uppercase;box-shadow:0 3px 8px rgba(188,52,64,.28);border:1px solid rgba(247,201,60,.4)}
+.page-title{font-size:24px;font-weight:800;margin:10px 0 4px;color:#1e293b;text-align:center;letter-spacing:-.3px}
+.page-sub{font-size:14px;color:#64748b;margin-bottom:18px;text-align:center;line-height:1.4}
+.big-btn{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:28px 16px;margin-bottom:14px;border:3px solid transparent;border-radius:20px;background:#fff;box-shadow:0 6px 18px rgba(15,23,42,.08),0 2px 4px rgba(15,23,42,.04);cursor:pointer;transition:transform .1s,box-shadow .2s;font-family:inherit;color:#1e293b;overflow:hidden}
+.big-btn::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,rgba(247,201,60,.55),transparent)}
+.big-btn:active{transform:scale(.98);box-shadow:0 3px 10px rgba(15,23,42,.1)}
+.big-btn .emoji{font-size:58px;line-height:1;margin-bottom:10px}
+.big-btn .label{font-size:24px;font-weight:800}
+.big-btn .desc{font-size:14px;color:#64748b;margin-top:6px;font-weight:500;text-align:center}
+.big-btn.casona{border-color:#54A07F;background:#f0fdf4;background:linear-gradient(135deg,#f7fdf9,#ecf7ee)}
+.big-btn.fabrica{border-color:#BC3440;background:linear-gradient(135deg,#fdf5f6,#fbeff0)}
+.big-btn.valledupar{border-color:#375090;background:linear-gradient(135deg,#f3f6fc,#e8edf7)}
+.big-btn.casona .label{color:#166534}
+.big-btn.fabrica .label{color:#8F1F2C}
+.big-btn.valledupar .label{color:#1B2B5A}
+.field{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 2px 6px rgba(0,0,0,.06);border:1px solid #F5F2DF}
+.field-label{display:block;font-size:15px;font-weight:700;color:#373435;margin-bottom:8px}
+.field-label .req{color:#BC3440}
+.field-label .opt{color:#94a3b8;font-weight:500;font-size:13px}
+.field select{-webkit-appearance:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"><path fill="%23475569" d="M6 7L0 0h12z"/></svg>');background-repeat:no-repeat;background-position:right 16px center;padding-right:42px;font-weight:600}
+.fm-pill.motivo-fixed{display:block;text-align:center;background:#F0F5FF;color:#375090;border-color:#C7D5F0;font-size:14px;padding:12px 14px;line-height:1.3}
+.field-help{font-size:13px;color:#64748b;margin-top:6px;line-height:1.35}
+input[type="text"],input[type="date"],input[type="number"],select,textarea{width:100%;padding:14px;font-size:17px;border:2px solid #e2e8f0;border-radius:10px;background:#fff;color:#373435;font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#BC3440;box-shadow:0 0 0 3px rgba(188,52,64,.18)}
+body.s-casona input:focus,body.s-casona textarea:focus{border-color:#54A07F;box-shadow:0 0 0 3px rgba(84,160,127,.2)}
+body.s-fabrica input:focus,body.s-fabrica textarea:focus{border-color:#BC3440;box-shadow:0 0 0 3px rgba(188,52,64,.2)}
+body.s-valledupar input:focus,body.s-valledupar textarea:focus{border-color:#375090;box-shadow:0 0 0 3px rgba(55,80,144,.2)}
+textarea{min-height:80px;resize:vertical}
+.row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.search-wrap{position:relative;margin-bottom:12px}
+.search-wrap input{padding-left:46px;font-size:18px}
+.search-wrap::before{content:"BUSCAR";position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:800;color:#64748b;pointer-events:none}
+.prod-list{max-height:420px;overflow-y:auto;border-radius:12px;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.prod-item{display:flex;align-items:center;padding:18px 16px;border-bottom:2px solid #f1f5f9;cursor:pointer;transition:background .1s;min-height:64px}
+.prod-item:last-child{border-bottom:none}
+.prod-item:active{background:#FDF3E8;transform:scale(.99)}
+body.s-casona .prod-item:active{background:#EAF4EC}
+body.s-fabrica .prod-item:active{background:#FBEFF0}
+body.s-valledupar .prod-item:active{background:#E8EDF7}
+.prod-item.added{background:#F5F2DF;opacity:.7}
+.prod-item.added:active{background:#EEE9CD}
+.prod-item .info{flex:1;min-width:0}
+.prod-item .name{font-size:17px;font-weight:700;color:#373435;line-height:1.25}
+.prod-item .sku{font-size:13px;color:#64748b;margin-top:3px}
+.prod-item .group-badge{display:inline-block;font-size:11px;font-weight:800;padding:3px 8px;border-radius:10px;background:#F9D997;color:#8F5A0E;margin-right:6px;vertical-align:middle}
+.prod-item .add-icon{flex:0 0 56px;height:56px;border-radius:50%;background:#54A07F;color:#fff;font-size:34px;font-weight:900;display:flex;align-items:center;justify-content:center;margin-left:10px;box-shadow:0 3px 10px rgba(84,160,127,.45)}
+body.s-fabrica .prod-item .add-icon{background:#BC3440;box-shadow:0 3px 10px rgba(188,52,64,.45)}
+body.s-valledupar .prod-item .add-icon{background:#375090;box-shadow:0 3px 10px rgba(55,80,144,.45)}
+.prod-item.added .add-icon{background:#A39AA5;box-shadow:none;font-size:24px}
+
+/* === QTY MODAL (BIG) === */
+.qmodal-bg{position:fixed;inset:0;background:rgba(15,23,42,.75);display:none;align-items:flex-end;justify-content:center;z-index:2000}
+.qmodal-bg.show{display:flex}
+.qmodal{background:#fff;border-radius:22px 22px 0 0;width:100%;max-width:520px;max-height:96vh;overflow-y:auto;animation:slideUp .3s ease-out;box-shadow:0 -10px 30px rgba(0,0,0,.35);display:flex;flex-direction:column}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.qmodal-hd{background:#BC3440;color:#fff;padding:14px 18px 12px;border-radius:22px 22px 0 0;position:relative}
+body.s-casona .qmodal-hd{background:#54A07F}
+body.s-valledupar .qmodal-hd{background:#375090}
+.qmodal-hd h2{font-size:17px;font-weight:800;line-height:1.2;padding-right:42px;color:#fff}
+.qmodal-hd h2 .group-badge{background:rgba(255,255,255,.25);color:#fff;font-size:10px;padding:2px 6px;border-radius:8px;margin-right:6px;vertical-align:middle}
+.qmodal-hd .sku-line{font-size:12px;color:rgba(255,255,255,.9);margin-top:3px;font-weight:500}
+.qmodal-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.25);border:none;font-size:20px;font-weight:900;color:#fff;cursor:pointer;font-family:inherit;line-height:1}
+.qmodal-close:active{background:rgba(255,255,255,.4)}
+/* Tabs */
+.qtabs{display:flex;gap:0;padding:0;background:#F5F2DF;border-bottom:2px solid #D8DDE7}
+.qtab{flex:1;padding:10px 6px;background:transparent;border:none;font-family:inherit;font-size:12px;font-weight:800;color:#64748b;cursor:pointer;text-transform:uppercase;letter-spacing:.3px;border-bottom:4px solid transparent;transition:all .15s}
+.qtab:active{background:rgba(0,0,0,.04)}
+.qtab.active{color:#BC3440;background:#fff;border-bottom-color:#BC3440}
+body.s-casona .qtab.active{color:#166534;border-bottom-color:#54A07F}
+body.s-valledupar .qtab.active{color:#1B2B5A;border-bottom-color:#375090}
+.qtab .tab-val{display:block;font-size:16px;font-weight:900;color:#373435;margin-top:3px;font-variant-numeric:tabular-nums}
+.qtab.active .tab-val{color:#BC3440}
+body.s-casona .qtab.active .tab-val{color:#166534}
+body.s-valledupar .qtab.active .tab-val{color:#1B2B5A}
+.qtab.has-val .tab-val{color:#166534}
+body.s-fabrica .qtab.has-val .tab-val{color:#8F1F2C}
+/* Big display */
+.qbig-display{font-size:78px;font-weight:900;color:#373435;text-align:center;padding:22px 12px 18px;background:#F5F2DF;border-top:4px solid #F7C93C;border-bottom:4px solid #F7C93C;margin:0;line-height:1;font-variant-numeric:tabular-nums;min-height:120px;display:flex;align-items:center;justify-content:center}
+.qbig-display.zero{color:#A39AA5}
+/* Keypad */
+.qkeypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px;background:#fff}
+.qkey{padding:22px 0;font-size:30px;font-weight:900;border:2px solid #D8DDE7;border-radius:14px;background:#fff;color:#373435;cursor:pointer;font-family:inherit;box-shadow:0 2px 4px rgba(0,0,0,.04);transition:transform .08s}
+.qkey:active{background:#F5F2DF;transform:scale(.94);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.qkey.op{background:#F7C93C;border-color:#D8A83A;color:#373435;font-size:18px}
+.qkey.op:active{background:#F9D25D}
+.qkey.back{background:#FDF5F6;border-color:#E8B5BB;color:#BC3440;font-size:24px}
+.qkey.back:active{background:#E8B5BB}
+.qkey.clear{background:#F5F2DF;border-color:#D8A83A;color:#8F5A0E;font-size:15px}
+.qkey.clear:active{background:#F9D997}
+.qmodal-footer{background:#fff;padding:14px 16px 18px;border-top:2px solid #F5F2DF;display:flex;gap:10px}
+.qmodal-footer .btn{flex:1;padding:18px 10px;font-size:18px}
+.selected-head{display:flex;align-items:center;justify-content:space-between;margin:16px 4px 10px}
+.selected-head h3{font-size:17px;font-weight:800;color:#373435}
+.selected-head .count{background:#BC3440;color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:12px}
+body.s-casona .selected-head .count{background:#54A07F}
+body.s-fabrica .selected-head .count{background:#BC3440}
+body.s-valledupar .selected-head .count{background:#375090}
+.sel-item{background:#fff;border-radius:14px;padding:14px 16px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.08);border-left:6px solid #BC3440;cursor:pointer;transition:transform .1s}
+.sel-item:active{transform:scale(.99)}
+body.s-casona .sel-item{border-left-color:#54A07F}
+body.s-fabrica .sel-item{border-left-color:#BC3440}
+body.s-valledupar .sel-item{border-left-color:#375090}
+.sel-item .sel-head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px}
+.sel-item .sel-name{flex:1;font-size:16px;font-weight:700;color:#1e293b;line-height:1.3}
+.sel-item .sel-sku{font-size:12px;color:#64748b;font-weight:500;margin-top:3px}
+.sel-item .del-btn{flex:0 0 auto;background:#FDF5F6;color:#BC3440;border:2px solid #E8B5BB;border-radius:10px;padding:8px 12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit}
+.sel-item .del-btn:active{background:#E8B5BB}
+.sel-badges{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-top:10px}
+.sel-badge{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:10px 6px;border-radius:10px;background:#F5F2DF;font-size:11px;font-weight:800;color:#64748b;border:2px solid #D8DDE7;text-transform:uppercase;letter-spacing:.3px;min-height:58px;text-align:center}
+.sel-badge.has-val{background:#EAF4EC;color:#166534;border-color:#9CC74C}
+body.s-fabrica .sel-badge.has-val{background:#FDF5F6;color:#8F1F2C;border-color:#E8B5BB}
+.sel-badge .bval{font-size:18px;font-weight:900;color:#373435}
+.sel-badge.has-val .bval{color:#166534}
+body.s-fabrica .sel-badge.has-val .bval{color:#8F1F2C}
+.sel-tap-hint{font-size:12px;color:#94a3b8;margin-top:8px;text-align:center;font-style:italic}
+.footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid #e2e8f0;padding:12px 14px;box-shadow:0 -4px 12px rgba(0,0,0,.08);z-index:90}
+.footer-inner{max-width:640px;margin:0 auto;display:flex;gap:10px}
+.btn{flex:1;padding:16px 10px;font-size:17px;font-weight:800;border:none;border-radius:12px;cursor:pointer;font-family:inherit;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:#BC3440;color:#fff;box-shadow:0 3px 8px rgba(188,52,64,.35)}
+.btn-primary:disabled{background:#A39AA5;box-shadow:none;cursor:not-allowed}
+body.s-casona .btn-primary{background:#54A07F;box-shadow:0 3px 8px rgba(84,160,127,.35)}
+body.s-fabrica .btn-primary{background:#BC3440;box-shadow:0 3px 8px rgba(188,52,64,.35)}
+body.s-valledupar .btn-primary{background:#375090;box-shadow:0 3px 8px rgba(55,80,144,.35)}
+.btn-secondary{background:#F5F2DF;color:#373435;border:2px solid #D8DDE7}
+.btn-success{background:#9CC74C;color:#fff;box-shadow:0 3px 8px rgba(156,199,76,.4)}
+.btn-warn{background:#F7C93C;color:#373435;box-shadow:0 3px 8px rgba(247,201,60,.4)}
+.btn-danger{background:#BC3440;color:#fff}
+.btn-cloud{background:#375090;color:#fff;box-shadow:0 3px 8px rgba(55,80,144,.35)}
+.screen{display:none;animation:fadeIn .25s ease-out}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.6);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:18px;max-width:480px;width:100%;padding:24px;box-shadow:0 20px 50px rgba(0,0,0,.3);max-height:90vh;overflow-y:auto}
+.modal h2{font-size:22px;font-weight:800;margin-bottom:10px;color:#1e293b}
+.modal .modal-body{font-size:16px;color:#475569;line-height:1.5;margin-bottom:20px}
+.modal .modal-btns{display:flex;gap:10px;flex-wrap:wrap}
+.modal .modal-btns .btn{flex:1;min-width:120px}
+.modal .icon-big{font-size:60px;text-align:center;margin-bottom:10px}
+.alert{padding:12px 14px;border-radius:10px;font-size:14px;font-weight:600;margin:10px 0;display:flex;align-items:flex-start;gap:10px;line-height:1.4}
+.alert .alert-icon{font-size:20px;flex-shrink:0}
+.alert.error{background:#FDF5F6;color:#8F1F2C;border-left:4px solid #BC3440}
+.alert.success{background:#EAF4EC;color:#166534;border-left:4px solid #54A07F}
+.alert.info{background:#FDF3E8;color:#8F5A0E;border-left:4px solid #F7C93C}
+.summary{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 6px rgba(0,0,0,.06);margin-bottom:12px}
+.summary h3{font-size:17px;font-weight:800;color:#1e293b;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #f1f5f9}
+.summary-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #e2e8f0;font-size:15px;gap:10px}
+.summary-row:last-child{border-bottom:none}
+.summary-row .k{color:#64748b;font-weight:600}
+.summary-row .v{color:#1e293b;font-weight:700;text-align:right;max-width:60%;word-wrap:break-word}
+.totals-grid{display:grid;gap:8px;margin-top:8px}
+.tot-box{background:#F5F2DF;border-radius:10px;padding:10px 12px;border-left:4px solid #BC3440;display:flex;justify-content:space-between;align-items:center}
+body.s-casona .tot-box{border-left-color:#54A07F}
+body.s-fabrica .tot-box{border-left-color:#BC3440}
+body.s-valledupar .tot-box{border-left-color:#375090}
+.tot-box .tb-lbl{font-size:13px;font-weight:700;color:#373435;text-transform:uppercase}
+.tot-box .tb-val{font-size:22px;font-weight:900;color:#BC3440}
+body.s-casona .tot-box .tb-val{color:#166534}
+body.s-valledupar .tot-box .tb-val{color:#1B2B5A}
+.sum-tbl{width:100%;font-size:13px;margin-top:10px;border-collapse:collapse}
+.sum-tbl th{text-align:center;padding:8px 4px;background:#BC3440;color:#fff;font-size:11px;font-weight:800;text-transform:uppercase}
+body.s-casona .sum-tbl th{background:#54A07F}
+body.s-valledupar .sum-tbl th{background:#375090}
+.sum-tbl th:first-child{text-align:left;padding-left:8px}
+.sum-tbl td{padding:8px 4px;border-bottom:1px solid #f1f5f9;color:#1e293b;text-align:center;font-weight:600}
+.sum-tbl td:first-child{text-align:left;padding-left:8px;font-weight:500}
+.sum-tbl tr.total-row{background:#f1f5f9;font-weight:900}
+.send-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+@media(max-width:380px){.page-title{font-size:20px}.big-btn .emoji{font-size:46px}.big-btn .label{font-size:20px}.qty-ctrl .qb{flex:0 0 32px;height:40px;font-size:18px}.qty-ctrl .qi{font-size:17px;height:40px}.qty-col-label{font-size:10px}}
+@media print{.footer,.back-btn{display:none}}
+/* === SPLASH === */
+.splash-screen{position:fixed;inset:0;background:linear-gradient(180deg,#F5F2DF 0%,#FFF7DD 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9000;padding:30px 20px;text-align:center}
+.splash-screen.hide{animation:fadeOutSplash .5s ease forwards}
+@keyframes fadeOutSplash{to{opacity:0;visibility:hidden;pointer-events:none}}
+.splash-logo-wrap{animation:splashPop .7s cubic-bezier(.17,.67,.32,1.5) both}
+.splash-logo-wrap img{max-width:320px;width:85%;height:auto;filter:drop-shadow(0 6px 20px rgba(188,52,64,.25))}
+@keyframes splashPop{0%{opacity:0;transform:scale(.6)}60%{opacity:1;transform:scale(1.05)}100%{transform:scale(1)}}
+.splash-tag{margin-top:18px;color:#BC3440;font-size:16px;font-weight:800;letter-spacing:2px;text-transform:uppercase;animation:splashFade 1s .3s both}
+.splash-title{color:#373435;font-size:22px;font-weight:900;margin-top:8px;animation:splashFade 1s .5s both}
+.splash-sub{color:#64748b;font-size:14px;margin-top:6px;animation:splashFade 1s .7s both}
+@keyframes splashFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.splash-btn{margin-top:30px;background:#BC3440;color:#fff;border:none;padding:18px 48px;font-size:20px;font-weight:900;border-radius:40px;box-shadow:0 6px 18px rgba(188,52,64,.4);cursor:pointer;font-family:inherit;animation:splashFade 1s .9s both;text-transform:uppercase;letter-spacing:1px}
+.splash-btn:active{transform:scale(.96);box-shadow:0 3px 10px rgba(188,52,64,.3)}
+.splash-foot{position:absolute;bottom:24px;left:0;right:0;color:#A39AA5;font-size:12px;animation:splashFade 1s 1.1s both}
+/* === MATERIA PRIMA === */
+.mp-section{background:#fff;border-radius:14px;padding:14px;margin-top:14px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:6px solid #9CC74C}
+.mp-section h3{font-size:17px;font-weight:800;color:#373435;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.mp-section h3 .emoji{font-size:24px}
+.mp-section .mp-help{font-size:13px;color:#64748b;margin-bottom:12px;line-height:1.4}
+.mp-card{background:#F5F2DF;border-radius:12px;padding:12px;margin-bottom:10px;border:2px solid #E8E4D0;transition:all .15s}
+.mp-card.has-val{border-color:#9CC74C;background:#EAF4EC}
+.mp-card-hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.mp-card-hd .mp-emoji{font-size:30px;flex:0 0 48px;width:48px;height:48px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 4px rgba(0,0,0,.08)}
+.mp-card-hd .mp-icon{flex:0 0 52px;width:52px;height:52px;border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.10),inset 0 0 0 1px rgba(0,0,0,.04);padding:6px;box-sizing:border-box}
+.mp-card-hd .mp-icon svg{width:100%;height:100%;display:block}
+.mp-card-hd .mp-name{flex:1;font-size:15px;font-weight:800;color:#373435;line-height:1.2}
+.mp-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mp-input-wrap{position:relative}
+.mp-input-wrap label{display:block;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:4px;letter-spacing:.3px}
+.mp-input-wrap input{width:100%;padding:12px 10px;font-size:20px;font-weight:800;border:2px solid #D8DDE7;border-radius:10px;background:#fff;color:#373435;font-family:inherit;text-align:center;font-variant-numeric:tabular-nums}
+.mp-input-wrap input:focus{outline:none;border-color:#54A07F;box-shadow:0 0 0 3px rgba(84,160,127,.2)}
+.mp-input-wrap .unit{position:absolute;right:12px;bottom:14px;font-size:12px;color:#94a3b8;font-weight:700;pointer-events:none}
+.mp-subtotal{margin-top:10px;padding:10px 12px;background:#fff;border-radius:8px;display:flex;justify-content:space-between;align-items:center;border:1px dashed #D8DDE7}
+.mp-subtotal .mp-st-lbl{font-size:12px;font-weight:700;color:#64748b;text-transform:uppercase}
+.mp-subtotal .mp-st-val{font-size:18px;font-weight:900;color:#166534;font-variant-numeric:tabular-nums}
+.mp-card:not(.has-val) .mp-subtotal .mp-st-val{color:#A39AA5}
+.mp-total-box{background:#9CC74C;color:#fff;border-radius:12px;padding:14px 16px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 3px 10px rgba(156,199,76,.35)}
+.mp-total-box .mpt-lbl{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.mp-total-box .mpt-val{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums}
+.mp-total-box .mpt-kg{font-size:13px;opacity:.9;font-weight:600;margin-top:2px}
+
+/* === STICKERS MEJORADOS (cards/badges pro) === */
+.mp-card{box-shadow:0 3px 10px rgba(0,0,0,.05);background:linear-gradient(180deg,#FFFDF5,#F7F4E3)}
+.mp-card.has-val{box-shadow:0 4px 14px rgba(156,199,76,.22);background:linear-gradient(180deg,#F4FDEA,#EAF4EC)}
+.prod-item{transition:background .15s,transform .1s}
+.sel-item{box-shadow:0 4px 14px rgba(0,0,0,.07),0 1px 3px rgba(0,0,0,.04);border-radius:16px;background:linear-gradient(180deg,#FFFFFF,#FAFBFC)}
+.sel-badge{box-shadow:0 1px 3px rgba(0,0,0,.05);transition:all .15s;border-radius:12px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.sel-badge.has-val{box-shadow:0 3px 10px rgba(156,199,76,.3)}
+body.s-fabrica .sel-badge.has-val{box-shadow:0 3px 10px rgba(188,52,64,.2)}
+.sel-badge .blbl{font-size:10px;opacity:.85}
+.sel-badge .bval{font-variant-numeric:tabular-nums}
+
+/* === EXTRA SECTIONS (traslado / insumo / calidad) === */
+.extra-section{background:#fff;border-radius:16px;padding:18px;margin-top:14px;box-shadow:0 4px 14px rgba(15,23,42,.07),0 1px 3px rgba(15,23,42,.04);border:1px solid rgba(245,242,223,.8);transition:box-shadow .2s}
+.extra-section:hover{box-shadow:0 6px 18px rgba(15,23,42,.09),0 2px 4px rgba(15,23,42,.05)}
+.extra-section h3{font-size:16px;font-weight:800;color:#1e293b;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.extra-section h3 .emoji{font-size:22px}
+.extra-section .ext-help{font-size:13px;color:#64748b;margin-bottom:12px;line-height:1.4}
+.extra-section.traslado{border-left:6px solid #375090}
+.extra-section.insumo{border-left:6px solid #F7C93C}
+.extra-section.calidad{border-left:6px solid #BC3440}
+.btn-add-item{width:100%;padding:14px;font-size:15px;font-weight:800;border:2px dashed #CBD5E1;border-radius:12px;background:#F8FAFC;color:#475569;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;margin-top:4px}
+.btn-add-item:active{transform:scale(.98);background:#F1F5F9}
+.btn-add-item .plus{font-size:22px;font-weight:900;line-height:1}
+.extra-section.traslado .btn-add-item{border-color:#93B3EA;color:#375090;background:#F0F5FF}
+.extra-section.traslado .btn-add-item:active{background:#E0ECFF}
+.extra-section.insumo .btn-add-item{border-color:#F7C93C;color:#8F5A0E;background:#FFFAEB}
+.extra-section.insumo .btn-add-item:active{background:#FFF3C8}
+.extra-section.calidad .btn-add-item{border-color:#E8B5BB;color:#BC3440;background:#FDF5F6}
+.extra-section.calidad .btn-add-item:active{background:#FBE5E8}
+.item-chip{display:flex;align-items:flex-start;justify-content:space-between;padding:12px 14px;border-radius:12px;margin-bottom:8px;background:#F8FAFC;border:1.5px solid #E2E8F0}
+.item-chip .chip-body{flex:1;min-width:0}
+.item-chip .chip-title{font-size:14px;font-weight:800;color:#1e293b;line-height:1.25;word-wrap:break-word}
+.item-chip .chip-sub{font-size:12px;color:#64748b;margin-top:4px;line-height:1.35}
+.item-chip .chip-tag{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:8px;background:#E2E8F0;color:#475569;margin-right:5px;text-transform:uppercase;letter-spacing:.3px}
+.item-chip .chip-cant{display:inline-block;font-size:12px;font-weight:900;padding:3px 8px;border-radius:8px;background:#fff;border:1px solid #CBD5E1;color:#1e293b;margin-top:3px}
+.item-chip .chip-del{flex:0 0 auto;background:#FDF5F6;color:#BC3440;border:none;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;margin-left:10px}
+.item-chip .chip-del:active{background:#E8B5BB}
+.traslado .item-chip{background:#F0F5FF;border-color:#C7D5F0}
+.traslado .item-chip .chip-tag{background:#DCE6FA;color:#375090}
+.insumo .item-chip{background:#FFFAEB;border-color:#F1DC82}
+.insumo .item-chip .chip-tag{background:#F9DE85;color:#8F5A0E}
+.calidad .item-chip{background:#FDF5F6;border-color:#E8B5BB}
+.calidad .item-chip .chip-tag{background:#F5D1D6;color:#BC3440}
+
+/* === FORM MODAL === */
+.formodal-bg{position:fixed;inset:0;background:rgba(15,23,42,.75);display:none;align-items:flex-end;justify-content:center;z-index:2000}
+.formodal-bg.show{display:flex}
+.formodal{background:#fff;border-radius:22px 22px 0 0;width:100%;max-width:520px;max-height:96vh;overflow-y:auto;animation:slideUp .3s ease-out;box-shadow:0 -10px 30px rgba(0,0,0,.35);display:flex;flex-direction:column}
+.formodal-hd{background:#BC3440;color:#fff;padding:16px 20px;border-radius:22px 22px 0 0;position:relative;flex:0 0 auto}
+.fm-select-big{min-height:52px !important;font-size:17px !important;padding:12px 14px !important;background:#fff;border:2px solid #375090 !important;border-radius:10px;appearance:menulist}
+.fm-select-big:focus{border-color:#BC3440 !important;outline:2px solid rgba(188,52,64,0.25)}
+.fm-help-tiny{font-size:11.5px;color:#475569;margin-top:4px;line-height:1.3}
+.chip-nt{display:inline-block;background:#F7C93C;color:#373435;font-weight:800;font-size:10.5px;letter-spacing:.5px;padding:1px 6px;border-radius:5px;margin-right:4px}
+.extra-section.perdida{border-left-color:#E0712E}
+.extra-section.perdida h3 .emoji{color:#E0712E}
+.extra-section.pendientes{border-left:6px solid #F7C93C;background:linear-gradient(180deg,#fff 0%,#FFFBEB 100%)}
+.extra-section.pendientes h3 .emoji{color:#D8A83A}
+.pend-badge{display:inline-block;min-width:26px;padding:2px 10px;background:#BC3440;color:#fff;border-radius:14px;font-size:13px;font-weight:800;text-align:center;margin-left:6px}
+.pend-badge.zero{background:#9CA3AF}
+.pend-card{background:#fff;border:1.5px solid #F7C93C;border-radius:12px;padding:12px;margin-top:10px;box-shadow:0 2px 6px rgba(247,201,60,.18)}
+.pend-card .pend-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.pend-card .pend-prod{font-size:15px;font-weight:800;color:#1e293b;line-height:1.25;flex:1}
+.pend-card .pend-sku{font-size:11px;color:#64748b;font-weight:500;margin-top:2px}
+.pend-card .pend-cant{font-size:22px;font-weight:900;color:#BC3440;white-space:nowrap}
+.pend-card .pend-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:#475569}
+.pend-card .pend-meta b{color:#1e293b}
+.pend-card .pend-note{margin-top:6px;font-size:12px;color:#64748b;font-style:italic}
+.pend-card .btn-recibir{margin-top:10px;width:100%;padding:11px;font-size:14px;font-weight:800;background:#54A07F;color:#fff;border:none;border-radius:10px;cursor:pointer;letter-spacing:.3px;box-shadow:0 2px 6px rgba(84,160,127,.35)}
+.pend-card .btn-recibir:active{transform:scale(.98)}
+.fm-pill.diff-ok{background:#DCFCE7;color:#15803D;border:1px solid #86EFAC}
+.fm-pill.diff-warn{background:#FEF3C7;color:#B45309;border:1px solid #FCD34D}
+.fm-pill.diff-err{background:#FEE2E2;color:#B91C1C;border:1px solid #FCA5A5}
+body.s-casona .formodal-hd{background:#54A07F}
+body.s-valledupar .formodal-hd{background:#375090}
+.formodal.traslado-bg .formodal-hd{background:#375090}
+.formodal.insumo-bg .formodal-hd{background:#D8A83A}
+.formodal.calidad-bg .formodal-hd{background:#BC3440}
+.formodal-hd h2{font-size:18px;font-weight:800;line-height:1.2;padding-right:42px;color:#fff}
+.formodal-hd .sub{font-size:12px;opacity:.95;margin-top:4px;font-weight:500}
+.formodal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.25);border:none;font-size:20px;font-weight:900;color:#fff;cursor:pointer;font-family:inherit;line-height:1}
+.formodal-close:active{background:rgba(255,255,255,.4)}
+.formodal-body{padding:18px 20px;background:#fff;flex:1;overflow-y:auto}
+.formodal-body .field{background:#F8FAFC;border:1px solid #E2E8F0;box-shadow:none;margin-bottom:12px;padding:14px}
+.formodal-body label.field-label{font-size:14px;margin-bottom:6px}
+.formodal-body select{width:100%;padding:14px;font-size:16px;border:2px solid #e2e8f0;border-radius:10px;background:#fff;color:#373435;font-family:inherit;font-weight:600;-webkit-appearance:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"><path fill="%23475569" d="M6 7L0 0h12z"/></svg>');background-repeat:no-repeat;background-position:right 16px center;padding-right:42px}
+.formodal-body select:focus{outline:none;border-color:#BC3440;box-shadow:0 0 0 3px rgba(188,52,64,.18)}
+.formodal-body .hint{font-size:12px;color:#64748b;margin-top:4px;line-height:1.3}
+.formodal-footer{background:#fff;padding:14px 20px 20px;border-top:2px solid #F5F2DF;display:flex;gap:10px;flex:0 0 auto}
+.formodal-footer .btn{flex:1;padding:16px 10px;font-size:16px}
+.fm-row{margin-bottom:14px}
+.fm-row label{display:block;font-size:13px;font-weight:800;color:#373435;margin-bottom:6px;letter-spacing:.1px}
+.fm-input{width:100%;padding:13px 14px;font-size:16px;border:2px solid #e2e8f0;border-radius:11px;background:#fff;color:#1e293b;font-family:inherit;font-weight:600;box-sizing:border-box;transition:border-color .15s,box-shadow .15s}
+.fm-input:focus{outline:none;border-color:#BC3440;box-shadow:0 0 0 3px rgba(188,52,64,.18)}
+.fm-input::placeholder{color:#94a3b8;font-weight:500}
+select.fm-input{-webkit-appearance:none;appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7"><path fill="%23475569" d="M6 7L0 0h12z"/></svg>');background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+textarea.fm-input{resize:vertical;min-height:60px;line-height:1.35}
+.fm-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fm-pill{display:inline-flex;align-items:center;padding:10px 16px;border-radius:999px;background:#F0F5FF;color:#375090;font-weight:800;font-size:15px;border:2px solid #C7D5F0}
+.fm-pill.insumo{background:#FFFAEB;color:#8F5A0E;border-color:#F7C93C}
+.fm-pill.calidad{background:#FDF5F6;color:#BC3440;border-color:#E8B5BB}
+.chip-empty{font-size:13px;color:#94a3b8;font-style:italic;padding:10px 14px;background:#F8FAFC;border:1.5px dashed #E2E8F0;border-radius:10px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="splash-screen" id="splashScreen">
+  <div class="splash-logo-wrap">
+    <img src="./laocanera_logo.png" alt="La Ocanera" onerror="this.style.display='none';document.getElementById('splashFallback').style.display='block';">
+    <div id="splashFallback" style="display:none;font-size:58px;font-weight:900;color:#BC3440;padding:20px;letter-spacing:2px">LA OCA&Ntilde;ERA</div>
+  </div>
+  <div class="splash-tag">Conservas</div>
+  <div class="splash-title">La Ocanera S.A.S.</div>
+  <div class="splash-sub">Reporte Diario de Produccion</div>
+  <button class="splash-btn" onclick="dismissSplash()">Comenzar &rsaquo;</button>
+  <div class="splash-foot">Ocana, Norte de Santander</div>
+</div>
+
+<div class="header">
+  <div class="header-row">
+    <div class="header-left">
+      <img src="./logo-header.png" alt="La Ocanera" class="header-logo" onerror="this.style.display='none'">
+      <div class="txt">
+        <h1 id="headerTitle">Reporte Diario</h1>
+        <div class="subtitle" id="headerSub">Conservas La Ocanera S.A.S.</div>
+      </div>
+    </div>
+    <button class="back-btn" id="backBtn" style="display:none" onclick="goBack()">&lsaquo; Atras</button>
+  </div>
+</div>
+
+<div class="steps" id="stepDots" style="display:none">
+  <div class="step-dot" data-step="1"></div>
+  <div class="step-dot" data-step="2"></div>
+  <div class="step-dot" data-step="3"></div>
+</div>
+
+<div class="page">
+
+<div class="screen active" id="screen-sede">
+  <div class="brand-hero">
+    <img src="./laocanera_logo.png" alt="La Ocanera" class="brand-hero-logo" onerror="this.style.display='none'">
+    <div class="brand-hero-badge">Conservas tradicionales desde Ocana</div>
+  </div>
+  <h2 class="page-title">Reporte Diario de Bodegas</h2>
+  <p class="page-sub">Selecciona la bodega donde estas trabajando hoy</p>
+  <button class="big-btn casona" onclick="setSede('casona')">
+    <div class="emoji">&#127969;</div>
+    <div class="label">CASONA</div>
+    <div class="desc">Aqui reportas: PRODUCCION y lo que ENVIASTE a Fabrica</div>
+  </button>
+  <button class="big-btn fabrica" onclick="setSede('fabrica')">
+    <div class="emoji">&#127981;</div>
+    <div class="label">FABRICA</div>
+    <div class="desc">Aqui reportas: RECIBIDO, ETIQUETADO/ARMADO y DESPACHADO</div>
+  </button>
+  <button class="big-btn valledupar" onclick="setSede('valledupar')">
+    <div class="emoji">&#127970;</div>
+    <div class="label">VALLEDUPAR</div>
+    <div class="desc">Bodega regional (Cesar): RECIBIDO y DESPACHADO a clientes</div>
+  </button>
+  <div class="alert info" style="margin-top:18px">
+    <span class="alert-icon">&#128221;</span>
+    <div>Llena <b>UN solo reporte</b> al final del dia con todos los movimientos.</div>
+  </div>
+</div>
+
+<div class="screen" id="screen-form">
+  <h2 class="page-title" id="formTitle">Reporte del dia</h2>
+  <p class="page-sub" id="formSub">Llena los datos y agrega los productos</p>
+
+  <div class="field">
+    <label class="field-label">Tu nombre <span class="req">*</span></label>
+    <select id="f_operario">
+      <option value="">-- Selecciona tu nombre --</option>
+      <option value="Liz Santana">Liz Santana</option>
+      <option value="Farides Bacca">Farides Bacca</option>
+      <option value="Wilson Quintero">Wilson Quintero</option>
+      <option value="Boris Ruidiaz">Boris Ruidiaz</option>
+      <option value="Jonnatan Quintero">Jonnatan Quintero</option>
+    </select>
+  </div>
+
+  <div class="row-2">
+    <div class="field">
+      <label class="field-label">Fecha <span class="req">*</span></label>
+      <input type="date" id="f_fecha">
+    </div>
+    <input type="hidden" id="f_lote" value="">
+  </div>
+
+  <div class="mp-section" id="mpSection" style="display:none">
+    <h3><span class="emoji">&#127821;</span> Materia Prima Recibida</h3>
+    <div class="mp-help">Escribe los kilos recibidos y el precio por kilo de cada fruta/verdura. Se calcula el total automaticamente.</div>
+    <div id="mpCards"></div>
+    <div class="mp-total-box">
+      <div>
+        <div class="mpt-lbl">Total Materia Prima</div>
+        <div class="mpt-kg" id="mpTotalKg">0 kg</div>
+      </div>
+      <div class="mpt-val" id="mpTotalVal">$0</div>
+    </div>
+  </div>
+
+  <!-- ===== TRASLADOS PENDIENTES POR RECIBIR ===== -->
+  <div class="extra-section pendientes" id="pendientesSection" style="display:none">
+    <h3><span class="emoji">&#128230;</span> Traslados pendientes de recibir <span id="pendCountBadge" class="pend-badge">0</span></h3>
+    <div class="ext-help">Productos enviados por otras bodegas. <b>Cuenta, ajusta cantidad si hay diferencia y confirma el recibo.</b></div>
+    <div id="pendientesList"><div class="chip-empty">Cargando traslados pendientes...</div></div>
+    <button type="button" class="btn-add-item" onclick="refreshPendientes()" style="margin-top:8px">
+      <span class="plus">&#8634;</span> Refrescar lista
+    </button>
+  </div>
+
+  <div id="productosSection">
+  <div class="field">
+    <label class="field-label">Agregar productos <span class="req">*</span></label>
+    <div class="field-help">Busca y toca el boton <b>+</b> verde para agregar cada producto</div>
+    <div class="search-wrap" style="margin-top:10px">
+      <input type="text" id="searchInput" placeholder="           Escribe el nombre o SKU..." autocomplete="off">
+    </div>
+    <div class="prod-list" id="prodList"></div>
+  </div>
+  </div>
+
+  <div id="selectedSection" style="display:none">
+    <div class="selected-head">
+      <h3>Productos del dia</h3>
+      <span class="count" id="selCount">0</span>
+    </div>
+    <div class="alert info" style="font-size:13px">
+      <span class="alert-icon">&#128161;</span>
+      <div id="colsHelpText"></div>
+    </div>
+    <div id="selectedList"></div>
+  </div>
+
+  <!-- ===== TRASLADOS ENTRE BODEGAS ===== -->
+  <div class="extra-section traslado" id="trasladoSection">
+    <h3><span class="emoji">&#128230;</span> Traslados entre bodegas</h3>
+    <div class="ext-help" id="trasladoHelp">Registra productos que enviaste o recibiste de la otra bodega, con la razon del traslado.</div>
+    <div id="trasladosList"></div>
+    <button type="button" class="btn-add-item" onclick="openTrasladoModal()">
+      <span class="plus">+</span> Agregar traslado
+    </button>
+  </div>
+
+  <!-- ===== INSUMOS DAÑADOS ===== -->
+  <div id="insumosSection">
+  <div class="extra-section insumo">
+    <h3><span class="emoji">&#128737;</span> Insumos dañados</h3>
+    <div class="ext-help">Reporta tapas, envases, etiquetas o cajas que llegaron rotos o se daniaron. Esto ayuda al control de inventario y reclamos a proveedores.</div>
+    <div id="insumosList"></div>
+    <button type="button" class="btn-add-item" onclick="openInsumoModal()">
+      <span class="plus">+</span> Reportar insumo dañado
+    </button>
+  </div>
+  </div>
+
+  <!-- ===== PRODUCTOS DEFECTUOSOS / CALIDAD ===== -->
+  <div class="extra-section calidad">
+    <h3><span class="emoji">&#9888;</span> Control de calidad</h3>
+    <div class="ext-help">Producto que NO cumple calidad: vencido, etiqueta danada, tapa en mal estado, mal rotulado, etc.</div>
+    <div id="defectuososList"></div>
+    <button type="button" class="btn-add-item" onclick="openDefectoModal()">
+      <span class="plus">+</span> Reportar producto defectuoso
+    </button>
+  </div>
+
+  <!-- ===== PERDIDAS (ROBO / GOLPES / ROTURA) ===== -->
+  <div class="extra-section perdida">
+    <h3><span class="emoji">&#128680;</span> Perdidas o danos</h3>
+    <div class="ext-help">Reporta producto perdido por <b>robo, partidura o golpe</b>. Esto alimenta el control de mermas e inventario.</div>
+    <div id="perdidasList"></div>
+    <button type="button" class="btn-add-item" onclick="openPerdidaModal()">
+      <span class="plus">+</span> Reportar perdida / dano
+    </button>
+  </div>
+
+  <div class="field">
+    <label class="field-label">Observaciones generales <span style="color:#64748b;font-size:13px;font-weight:500">(opcional)</span></label>
+    <textarea id="observaciones" placeholder="Anota novedades, problemas, averias..."></textarea>
+  </div>
+</div>
+
+<!-- ===== FORM MODAL (traslado/insumo/defecto) ===== -->
+<div class="formodal-bg" id="formodalBg">
+  <div class="formodal" id="formodalBox">
+    <div class="formodal-hd">
+      <h2 id="formodalTitle">Formulario</h2>
+      <div class="sub" id="formodalSub"></div>
+      <button class="formodal-close" onclick="closeFormodal()" aria-label="Cerrar">&times;</button>
+    </div>
+    <div class="formodal-body" id="formodalBody"></div>
+    <div class="formodal-footer">
+      <button class="btn btn-secondary" onclick="closeFormodal()">Cancelar</button>
+      <button class="btn btn-primary" id="formodalSave" onclick="saveFormodal()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-review">
+  <h2 class="page-title">Revisa antes de enviar</h2>
+  <p class="page-sub">Confirma que todo este correcto</p>
+  <div id="summaryBox"></div>
+  <div class="alert info" style="margin-top:8px">
+    <span class="alert-icon">&#128161;</span>
+    <div>Elige como enviar el reporte. Puedes usar varios si quieres.</div>
+  </div>
+</div>
+
+</div>
+
+<div class="footer" id="footer" style="display:none">
+  <div class="footer-inner">
+    <button class="btn btn-secondary" id="btnBack" onclick="goBack()">&lsaquo; Atras</button>
+    <button class="btn btn-primary" id="btnNext" onclick="goNext()">Siguiente &rsaquo;</button>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <div class="icon-big" id="modalIcon">!</div>
+    <h2 id="modalTitle">Titulo</h2>
+    <div class="modal-body" id="modalBody">Mensaje</div>
+    <div class="modal-btns" id="modalBtns"></div>
+  </div>
+</div>
+
+<div class="qmodal-bg" id="qmodalBg">
+  <div class="qmodal">
+    <div class="qmodal-hd">
+      <h2 id="qmodalTitle">Producto</h2>
+      <div class="sku-line" id="qmodalSku">SKU</div>
+      <button class="qmodal-close" onclick="cancelQty()" aria-label="Cerrar">&times;</button>
+    </div>
+    <div class="qmodal-body" id="qmodalBody"></div>
+    <div class="qmodal-footer">
+      <button class="btn btn-secondary" onclick="cancelQty()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveQty()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== CONFIG ==========
+const CLOUD_URL = "";
+const WHATSAPP_PHONE = "573152424221";
+const EMAIL_TO = "jquinteroruedas@gmail.com";
+
+// ========== DATA ==========
+const PRODUCTOS = [{"sku": "ACEIDESX4000", "nombre": "ACEITUNAS DESHUESADA EN VINAGRE 4000 g", "gtin13": "7709231082252", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIMZ250g", "nombre": "ACEITUNAS MANZANILLA EN VINAGRE 250 g", "gtin13": "7709082024401", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIMZ500g", "nombre": "ACEITUNAS MANZANILLA EN VINAGRE 500 g", "gtin13": "7709428000793", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ALCA125g", "nombre": "ALCAPARRAS FINES EN VINAGRE 125 g", "gtin13": "7709265527804", "gtin14": "", "unds": "24", "group": "ALCAPARRAS"}, {"sku": "ALCA4000g", "nombre": "ALCAPARRAS FINES EN VINAGRE 4000 g", "gtin13": "7709827550936", "gtin14": "", "unds": "24", "group": "ALCAPARRAS"}, {"sku": "ALCA250g", "nombre": "ALCAPARRAS FINES EN VINAGRE DE 250 g", "gtin13": "7709122157632", "gtin14": "", "unds": "24", "group": "ALCAPARRAS"}, {"sku": "ALCA500g", "nombre": "ALCAPARRAS FINES EN VINAGRE DE 500 g", "gtin13": "7709231082214", "gtin14": "", "unds": "24", "group": "ALCAPARRAS"}, {"sku": "ALCA60g", "nombre": "ALCAPARRAS FINES EN VINAGRE DE 60 g", "gtin13": "7709122157618", "gtin14": "", "unds": "24", "group": "ALCAPARRAS"}, {"sku": "ANTI250g", "nombre": "ANTIPASTO DE 250 g", "gtin13": "7709122157656", "gtin14": "", "unds": "24", "group": "ANTIPASTOS"}, {"sku": "ANTI500g", "nombre": "ANTIPASTO DE 500 g", "gtin13": "7708379488209", "gtin14": "", "unds": "24", "group": "ANTIPASTOS"}, {"sku": "AREQBR300g", "nombre": "AREQUIPE ARTESANAL CON BREVA 300G BOMBILLO", "gtin13": "7709117622282", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQBR600g", "nombre": "AREQUIPE ARTESANAL CON BREVA 600 g", "gtin13": "7708379488865", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCA300g", "nombre": "AREQUIPE ARTESANAL CON CAFE 300G BOMBILLO", "gtin13": "7709117622244", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCA600g", "nombre": "AREQUIPE ARTESANAL CON CAFE 600 g", "gtin13": "7708379488278", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCO300g", "nombre": "AREQUIPE ARTESANAL CON COCO 300G BOMBILLO", "gtin13": "7709827550905", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCO600g", "nombre": "AREQUIPE ARTESANAL CON COCO 600 g", "gtin13": "7708379488599", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQPI300g", "nombre": "AREQUIPE ARTESANAL CON PIÑA 300G BOMBILLO", "gtin13": "7709117622275", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQPI600g", "nombre": "AREQUIPE ARTESANAL CON PIÑA 600 g", "gtin13": "7708379488711", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQNA300g", "nombre": "AREQUIPE ARTESANAL NATURAL 300 g BOMBILLO", "gtin13": "7709827550912", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQNA600g", "nombre": "AREQUIPE ARTESANAL NATURAL 600 g", "gtin13": "7708379488148", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "BREV1000g", "nombre": "BREVAS EN ALMIBAR POR 1000 g", "gtin13": "7709231082290", "gtin14": "", "unds": "24", "group": "BREVAS"}, {"sku": "BREV4000g", "nombre": "BREVAS EN ALMIBAR POR 4000 g", "gtin13": "7709231082245", "gtin14": "", "unds": "24", "group": "BREVAS"}, {"sku": "BREV250g", "nombre": "BREVAS EN ALMIBAR POR 250 g", "gtin13": "7709122157601", "gtin14": "", "unds": "24", "group": "BREVAS"}, {"sku": "BREV500g", "nombre": "BREVAS EN ALMIBAR POR 500 g", "gtin13": "7709428000731", "gtin14": "", "unds": "24", "group": "BREVAS"}, {"sku": "CEBS250g", "nombre": "CEBOLLITAS EN SALSA PICANTE DE 250 g", "gtin13": "7709265527828", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CEBS500g", "nombre": "CEBOLLITAS EN SALSA PICANTE DE 500 g", "gtin13": "7708379488636", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CEBR1000g", "nombre": "CEBOLLITAS ROJAS EN VINAGRE 1000 g", "gtin13": "7709122157625", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CEBR250g", "nombre": "CEBOLLITAS ROJAS EN VINAGRE 250 g", "gtin13": "7709082024449", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CEBR370g", "nombre": "CEBOLLITAS ROJAS EN VINAGRE 370 g", "gtin13": "7709122157649", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CEBR500g", "nombre": "CEBOLLITAS ROJAS EN VINAGRE 500 g", "gtin13": "7709265527835", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CEBR4000g", "nombre": "CEBOLLITAS ROJAS EN VINAGRE 4000 g", "gtin13": "7709265527811", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CEBR125g", "nombre": "CEBOLLITAS ROJAS EN VINAGRE 125 g", "gtin13": "7709082024494", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CEBR750g", "nombre": "CEBOLLITAS ROJAS EN VINAGRE 750 g", "gtin13": "7709265527866", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CHAC4000g", "nombre": "CHAMPIÑON TAJADO DE 4000 g", "gtin13": "7709428000762", "gtin14": "", "unds": "24", "group": "CHAMPINONES"}, {"sku": "CHAC500g", "nombre": "CHAMPIÑON TAJADO DE 500 g", "gtin13": "7709082024470", "gtin14": "", "unds": "24", "group": "CHAMPINONES"}, {"sku": "CHAC250g", "nombre": "CHAMPIÑON TAJADO DE 250 g", "gtin13": "7709698264529", "gtin14": "", "unds": "24", "group": "CHAMPINONES"}, {"sku": "DURB250g", "nombre": "DURAZNOS CON PEPA EN ALMIBAR BOMBILLO 250 g", "gtin13": "7708379488094", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "DURP1000g", "nombre": "DURAZNOS CON PEPA EN ALMIBAR 1000 g", "gtin13": "7709265527842", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "DURP500g", "nombre": "DURAZNOS CON PEPA EN ALMIBAR 500 g", "gtin13": "7709265527880", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "DURP250g", "nombre": "DURAZNOS CON PEPA EN ALMIBAR CUADRADO 250 g", "gtin13": "7709122157687", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "DURP750g", "nombre": "DURAZNOS CON PEPA EN ALMIBAR 750 g", "gtin13": "7709827550974", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "JALR1000g", "nombre": "JALAPEÑOS EN RODAJAS DE 1000 g", "gtin13": "7709117622213", "gtin14": "", "unds": "24", "group": "JALAPENOS"}, {"sku": "JALR250g", "nombre": "JALAPEÑOS EN RODAJAS DE 250 g", "gtin13": "7709117622251", "gtin14": "", "unds": "24", "group": "JALAPENOS"}, {"sku": "JALR4000g", "nombre": "JALAPEÑOS EN RODAJAS DE 4000 g", "gtin13": "7709231082207", "gtin14": "", "unds": "24", "group": "JALAPENOS"}, {"sku": "JALR500g", "nombre": "JALAPEÑOS EN RODAJAS DE 500 g", "gtin13": "7709117622206", "gtin14": "", "unds": "24", "group": "JALAPENOS"}, {"sku": "PEPR1000g", "nombre": "PEPINILLOS EN RODAJAS AGRIDULCES DE 1000 g", "gtin13": "7709117622220", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "PEPR4000g", "nombre": "PEPINILLOS EN RODAJAS AGRIDULCES 4000 g", "gtin13": "7709117622237", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "PEPR250g", "nombre": "PEPINILLOS EN RODAJAS AGRIDULCES 250 g", "gtin13": "7709117622299", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "PEPR500g", "nombre": "PEPINILLOS EN RODAJAS AGRIDULCES 500 g", "gtin13": "7709827550943", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "SAL-NEG", "nombre": "SALSA NEGRA", "gtin13": "", "gtin14": "", "unds": "24", "group": "SALSAS"}, {"sku": "CONSERV500g", "nombre": "CONSERVAS 500 g", "gtin13": "", "gtin14": "", "unds": "24", "group": "OTROS"}, {"sku": "CREZM250g", "nombre": "CEREZAS MARRASQUINO 250 g", "gtin13": "7709428000748", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZM125g", "nombre": "CEREZAS MARRASQUINO 125 g", "gtin13": "7709231082238", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZM500g", "nombre": "CEREZAS MARRASQUINO 500 g", "gtin13": "7709428000700", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZM1000g", "nombre": "CEREZAS MARRASQUINO 1000 g", "gtin13": "7709428000724", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZM4000g", "nombre": "CEREZAS MARRASQUINO 4000 g", "gtin13": "7709428000755", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "DUR410g", "nombre": "DURAZNOS EN MITADES EN ALMIBAR DE 410G", "gtin13": "7708379488162", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "DUR820g", "nombre": "DURAZNOS EN MITADES EN ALMIBAR DE 820 g", "gtin13": "7708379488018", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "DURP4000g", "nombre": "DURAZNOS CON PEPA EN ALMIBAR 4000g", "gtin13": "7708379488117", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "CEROJA", "nombre": "CEBOLLA ROJA POR Kg", "gtin13": "", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "CENAT", "nombre": "CEBOLLA NATURAL Kg", "gtin13": "", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "AREQSURT300g", "nombre": "AREQUIPE SURTIDOS 300 g", "gtin13": "", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "CEBR250gBOM", "nombre": "CEBOLLITAS ROJAS EN VINAGRE 250 g BOMBILLO", "gtin13": "7708379488469", "gtin14": "", "unds": "24", "group": "CEBOLLITAS"}, {"sku": "AREQDU300g", "nombre": "AREQUIPE ARTESANAL CON DURAZNO 300G BOMBILLO", "gtin13": "7708379488445", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCEREZA300g", "nombre": "AREQUIPE ARTESANAL CON CEREZA 300G BOMBILLO", "gtin13": "7708379488285", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "SALSAPICT4000GR", "nombre": "SALSA PICANTE 4000GR", "gtin13": "7708379488056", "gtin14": "", "unds": "24", "group": "SALSAS"}, {"sku": "SALSAPICT250GR", "nombre": "SALSA PICANTE 250GR", "gtin13": "7708379488490", "gtin14": "", "unds": "24", "group": "SALSAS"}, {"sku": "ALCAXKG", "nombre": "ALCAPARRA X KG", "gtin13": "", "gtin14": "", "unds": "24", "group": "ALCAPARRAS"}, {"sku": "DURTAJ4000g", "nombre": "DURAZNOS TAJADOS EN ALMIBAR 4000g", "gtin13": "7708379488308", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "JALRODAJASXKG", "nombre": "JALAPEÑOS EN RODAJAS 5 MM", "gtin13": "", "gtin14": "", "unds": "24", "group": "JALAPENOS"}, {"sku": "PEPIAGRRODAJAS5mm", "nombre": "PEPINILLOS AGRIDULCES EN RODAJAS 5 MM", "gtin13": "", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "ACEIRELL250g", "nombre": "ACEITUNAS RELLENAS EN VINAGRE 250g", "gtin13": "7709231082283", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "CHAC1000gr", "nombre": "CHAMPIÑONES TAJADOS 1000 g", "gtin13": "7708379488889", "gtin14": "", "unds": "24", "group": "CHAMPINONES"}, {"sku": "ACEIRELLX500gr", "nombre": "ACEITUNAS RELLENAS EN VINAGRE 500g", "gtin13": "7709117622268", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIMZ125g", "nombre": "ACEITUNAS MANZANILLA EN VINAGRE 125g", "gtin13": "7709698264567", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIRELL125g", "nombre": "ACEITUNAS RELLENAS EN VINAGRE 125 g", "gtin13": "7709428000717", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "AREQBR300GCUAD", "nombre": "AREQUIPE ARTESANAL CON BREVA 300G CUADRADO", "gtin13": "7708379488933", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCA300GCUAD", "nombre": "AREQUIPE ARTESANAL CON CAFE 300G CUADRADO", "gtin13": "7708379488773", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCO300GCUAD", "nombre": "AREQUIPE ARTESANAL CON COCO 300G CUADRADO", "gtin13": "7708379488902", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQPI300GCUAD", "nombre": "AREQUIPE ARTESANAL CON PIÑA 300G CUADRADO", "gtin13": "7708379488872", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQNA300GCUAD", "nombre": "AREQUIPE ARTESANAL NATURAL 300 G CUADRADO", "gtin13": "7708379488476", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQDU300GCUAD", "nombre": "AREQUIPE ARTESANAL CON DURAZNO 300G CUADRADO", "gtin13": "7708379488759", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCER300GCUAD", "nombre": "AREQUIPE ARTESANAL CON CEREZA 300G CUADRADO", "gtin13": "7708379488186", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "DURTAJ1000G", "nombre": "DURAZNOS TAJADOS EN ALMIBAR 1000 g", "gtin13": "7708379488438", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "JALAPCUAD5MM", "nombre": "JALAPEÑOS  CUBICADO A 5 MM", "gtin13": "", "gtin14": "", "unds": "24", "group": "JALAPENOS"}, {"sku": "ACEIRELLX4000gr", "nombre": "ACEITUNAS RELLENAS EN VINAGRE 4000g", "gtin13": "7709428000786", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "PEPISALMUERA5MM", "nombre": "PEPINILLO EN SALMUERO EN RODAJAS 5MM", "gtin13": "", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "DURTAJ250g", "nombre": "DURAZNO TAJADO EN ALMIBAR 250g", "gtin13": "7708379488940", "gtin14": "", "unds": "24", "group": "DURAZNOS"}, {"sku": "CEREZA4000gFRAC", "nombre": "CEREZA MARRAQUINO 4000GR FRACT", "gtin13": "", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "GUACAL250GRX2UND", "nombre": "GUACAL PARA 2UND 250GR", "gtin13": "", "gtin14": "", "unds": "24", "group": "OTROS"}, {"sku": "GUACAL500GR", "nombre": "GUACAL PARA 500GR", "gtin13": "", "gtin14": "", "unds": "24", "group": "OTROS"}, {"sku": "GUACAL250GRBOM", "nombre": "GUACAL PARA 250GR BOMBILLO", "gtin13": "", "gtin14": "", "unds": "24", "group": "OTROS"}, {"sku": "PEPENT4000g", "nombre": "PEPINLLOS ENTEROS AGRIDULCES DE 4000 g", "gtin13": "7708379488063", "gtin14": "", "unds": "24", "group": "OTROS"}, {"sku": "ACEITDESHKG", "nombre": "ACEITUNA DESHUESADA POR KILOS", "gtin13": "", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIDESH125g", "nombre": "ACEITUNAS DESHUESADAS EN VINAGRE 125g", "gtin13": "7709827550950", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIDESH250g", "nombre": "ACEITUNAS DESHUESADA EN VINAGRE 250g", "gtin13": "7709827550981", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIDESH500g", "nombre": "ACEITUNAS DESHUESADAS EN VINAGRE 500g", "gtin13": "7709827550998", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIDESH1000g", "nombre": "ACEITUNAS DESHUESADAS EN VINAGRE 1000g", "gtin13": "7709827550967", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIDESH4000g", "nombre": "ACEITUNAS DESHUESADAS EN VINAGRE 4000g", "gtin13": "7709231082252", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "CJREG250GR", "nombre": "CAJA REGALO 2UND 250GR", "gtin13": "", "gtin14": "", "unds": "24", "group": "OTROS"}, {"sku": "CJREG1000A500GR", "nombre": "CAJA DE REGALO 1OOO A 500GR", "gtin13": "", "gtin14": "", "unds": "24", "group": "OTROS"}, {"sku": "PEPENT250g", "nombre": "PEPINILLOS ENTEROS AGRIDULCES DE 250g", "gtin13": "7709997475572", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "PEPENT500g", "nombre": "PEPINILLOS ENTEROS AGRIDULCES DE 500g", "gtin13": "7708379488315", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "PEPENT1000g", "nombre": "PEPINILLOS ENTEROS AGRIDULCES DE 1000g", "gtin13": "7708379488384", "gtin14": "", "unds": "24", "group": "PEPINILLOS"}, {"sku": "ACEIRELLX1000g", "nombre": "ACEITUNAS RELLENAS EN VINAGRE 1000g", "gtin13": "7709827550929", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIMZ4000g", "nombre": "ACEITUNAS MANZANILLA EN VINAGRE 4000g", "gtin13": "7709428000779", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ACEIMZ1000g", "nombre": "ACEITUNAS MANZANILLA EN VINAGRE 1000g", "gtin13": "7709231082269", "gtin14": "", "unds": "24", "group": "ACEITUNAS"}, {"sku": "ALCA1000g", "nombre": "ALCAPARRAS FINES EN VINAGRE DE 1000 g", "gtin13": "7709231082276", "gtin14": "", "unds": "24", "group": "ALCAPARRAS"}, {"sku": "CREZM250gBOM", "nombre": "CEREZAS MARRASQUINO 250 g BOMBILLO", "gtin13": "7708379488834", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "BREV250gBOM", "nombre": "BREVAS EN ALMIBAR 250 g BOMBILLO", "gtin13": "7708379488704", "gtin14": "", "unds": "24", "group": "BREVAS"}, {"sku": "AREQDU600g", "nombre": "AREQUIPE ARTESANAL CON DURAZNO 600 g", "gtin13": "7708379488971", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "CREZVR500g", "nombre": "CEREZAS MARRASQUINO VERDES 500 g", "gtin13": "7708379488100", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZVR4000g", "nombre": "CEREZAS MARRASQUINO VERDES 4000 g", "gtin13": "7708379488346", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZVR1000g", "nombre": "CEREZAS MARRASQUINO VERDES 1000 g", "gtin13": "7708379488896", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZAZ250g", "nombre": "CEREZAS MARRASQUINO AZULES 250 g", "gtin13": "7708379488025", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZAZ4000g", "nombre": "CEREZAS MARRASQUINO AZULES 4000 g", "gtin13": "7708379488537", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZVR250g", "nombre": "CEREZAS MARRASQUINO VERDES 250 g", "gtin13": "7708379488810", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "AREQCER600g", "nombre": "AREQUIPE ARTESANAL CON CEREZA 600 g", "gtin13": "7708379488650", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "CREZAZ1000g", "nombre": "CEREZAS MARRASQUINO AZULES 1000 g", "gtin13": "7708379488407", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZAZ500g", "nombre": "CEREZAS MARRASQUINO AZULES 500 g", "gtin13": "7708379488216", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZVR250gBOM", "nombre": "CEREZAS MARRASQUINO VERDES 250 g BOMBILLO", "gtin13": "7708379488841", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "CREZAZ250gBOM", "nombre": "CEREZAS MARRASQUINO AZULES 250 g BOMBILLO", "gtin13": "7708379488612", "gtin14": "", "unds": "24", "group": "CEREZAS"}, {"sku": "AREQBR125g", "nombre": "AREQUIPE ARTESANAL SABOR CON BREVA 125 g", "gtin13": "7708379488728", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCA125g", "nombre": "AREQUIPE ARTESANAL SABOR CON CAFE 125 g", "gtin13": "7708379488926", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCER125g", "nombre": "AREQUIPE ARTESANAL SABOR CON CEREZA 125 g", "gtin13": "7708379488452", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQCO125g", "nombre": "AREQUIPE ARTESANAL SABOR CON COCO 125 g", "gtin13": "7708379488124", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQPI125g", "nombre": "AREQUIPE ARTESANAL SABOR CON PIÑA 125 g", "gtin13": "7708379488582", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQNA125g", "nombre": "AREQUIPE ARTESANAL SABOR NATURAL 125 g", "gtin13": "7708379488568", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "AREQDU125g", "nombre": "AREQUIPE ARTESANAL SABOR CON DURAZNO 125 g", "gtin13": "7708379488421", "gtin14": "", "unds": "24", "group": "AREQUIPES"}, {"sku": "SALSAPICT500GR", "nombre": "SALSA PICANTE 500GR", "gtin13": "7708379488858", "gtin14": "", "unds": "24", "group": "SALSAS"}, {"sku": "SALSAPICT1000GR", "nombre": "SALSA PICANTE 1000GR", "gtin13": "7708379488322", "gtin14": "", "unds": "24", "group": "SALSAS"}];
+// Clasificar PRODUCTOS por linea para dropdowns agrupados
+function __classifyLinea(nombre){
+  const n = (nombre || "").toUpperCase();
+  const pats = [
+    ["ACEITUNAS RELLENA","Aceitunas rellenas"],
+    ["ACEITUNAS DESHUESADA","Aceitunas deshuesadas"],
+    ["ACEITUNAS MANZANILLA","Aceitunas manzanilla"],
+    ["ACEITUNA","Aceitunas"],
+    ["CEBOLLITAS ROJA","Cebollitas rojas"],
+    ["CEBOLLITAS","Cebollitas"],
+    ["CEBOLLA","Cebollas"],
+    ["JALAPE","Jalapeños"],
+    ["DURAZNO","Duraznos"],
+    ["PIÑA","Piñas"],
+    ["PINA","Piñas"],
+    ["BREVA","Brevas"],
+    ["PEPINILLO","Pepinillos"],
+    ["PEPINLLO","Pepinillos"],
+    ["CEREZA","Cerezas"],
+    ["CHAMPI","Champiñones"],
+    ["ALCAPARRA","Alcaparras"],
+    ["ANTIPASTO","Antipastos"],
+    ["AREQUIPE","Arequipes"],
+    ["SALSA","Salsas"],
+    ["VEGETALES MIXTOS","Vegetales mixtos"],
+    ["ENCURTIDO","Encurtidos"],
+    ["VINAGRETA","Vinagretas"],
+    ["MERMELADA","Mermeladas"],
+    ["MIEL","Mieles"],
+    ["ACEITE","Aceites"],
+    ["CAJA","Empaque (cajas)"],
+    ["GUACAL","Empaque (guacales)"]
+  ];
+  for(let i=0;i<pats.length;i++){ if(n.indexOf(pats[i][0])>=0) return pats[i][1]; }
+  return "Otros";
+}
+const PRODUCTOS_GROUPED = (function(){
+  const g = {};
+  PRODUCTOS.forEach(function(p){
+    const k = __classifyLinea(p.nombre);
+    if(!g[k]) g[k] = [];
+    g[k].push(p);
+  });
+  const orden = [
+    "Aceitunas manzanilla","Aceitunas deshuesadas","Aceitunas rellenas","Aceitunas",
+    "Cebollitas rojas","Cebollitas","Cebollas","Jalapeños","Duraznos","Piñas",
+    "Brevas","Pepinillos","Cerezas","Champiñones","Alcaparras","Antipastos",
+    "Salsas","Vegetales mixtos","Encurtidos","Vinagretas","Mermeladas","Arequipes",
+    "Mieles","Aceites","Empaque (cajas)","Empaque (guacales)","Otros"
+  ];
+  const out = [];
+  const vistos = {};
+  orden.forEach(function(k){
+    if(g[k] && g[k].length){
+      g[k].sort(function(a,b){ return a.nombre.localeCompare(b.nombre); });
+      out.push({grupo:k, items:g[k]});
+      vistos[k] = 1;
+    }
+  });
+  Object.keys(g).sort().forEach(function(k){
+    if(!vistos[k] && g[k] && g[k].length){
+      g[k].sort(function(a,b){ return a.nombre.localeCompare(b.nombre); });
+      out.push({grupo:k, items:g[k]});
+    }
+  });
+  return out;
+})();
+
+// HTML de un select nativo agrupado + campo de busqueda. Uso: buildProductPicker("tr_prod","tr_prod_q")
+function buildProductPicker(selectId, filterId, placeholder){
+  placeholder = placeholder || "Buscar (escribe para filtrar)...";
+  let opts = '<option value="">-- Toca para elegir producto --</option>';
+  PRODUCTOS_GROUPED.forEach(function(g){
+    opts += '<optgroup label="'+escapeHtml(g.grupo)+'">';
+    g.items.forEach(function(p){
+      opts += '<option value="'+escapeHtml(p.sku)+'" data-nombre="'+escapeHtml(p.nombre)+'" data-linea="'+escapeHtml(g.grupo)+'">'+escapeHtml(p.nombre)+' ('+escapeHtml(p.sku)+')</option>';
+    });
+    opts += '</optgroup>';
+  });
+  // Pista visual: chip que muestra el producto elegido
+  return '<input type="search" id="'+filterId+'" class="fm-input" placeholder="'+placeholder+'" autocomplete="off" style="margin-bottom:6px">'
+       + '<select id="'+selectId+'" class="fm-input fm-select-big">'+opts+'</select>'
+       + '<div class="fm-help-tiny">Toca el selector y elige tu producto de la lista agrupada. O escribe arriba para filtrar.</div>';
+}
+// Engancha el filtro de busqueda al select nativo
+function wireProductFilter(selectId, filterId){
+  const sel = document.getElementById(selectId);
+  const inp = document.getElementById(filterId);
+  if(!sel || !inp) return;
+  // guardar html original una vez
+  if(!sel.__origHtml) sel.__origHtml = sel.innerHTML;
+  inp.addEventListener("input", function(){
+    const q = (inp.value || "").trim().toLowerCase();
+    const prevValue = sel.value;
+    if(!q){
+      sel.innerHTML = sel.__origHtml;
+      if(prevValue) sel.value = prevValue;
+      return;
+    }
+    let html = '<option value="">-- Resultados: "'+escapeHtml(q)+'" (toca abajo) --</option>';
+    let total = 0;
+    PRODUCTOS_GROUPED.forEach(function(g){
+      const matches = g.items.filter(function(p){ return (p.nombre+' '+p.sku).toLowerCase().indexOf(q) >= 0; });
+      if(matches.length === 0) return;
+      total += matches.length;
+      html += '<optgroup label="'+escapeHtml(g.grupo)+'">';
+      matches.forEach(function(p){
+        html += '<option value="'+escapeHtml(p.sku)+'" data-nombre="'+escapeHtml(p.nombre)+'" data-linea="'+escapeHtml(g.grupo)+'">'+escapeHtml(p.nombre)+' ('+escapeHtml(p.sku)+')</option>';
+      });
+      html += '</optgroup>';
+    });
+    if(total === 0){
+      html = '<option value="">Sin resultados para "'+escapeHtml(q)+'"</option>';
+    }
+    sel.innerHTML = html;
+    if(prevValue){
+      // si aun esta el valor previo, mantenerlo seleccionado
+      for(let i=0;i<sel.options.length;i++){
+        if(sel.options[i].value === prevValue){ sel.selectedIndex = i; break; }
+      }
+    }
+  });
+}
+
+
+const COLUMNAS = {
+  // Casona: controla toda la produccion (envasado). Lo que sale a Fabrica
+  // o Valledupar se mueve por NOTAS DE TRASLADO, no por esta columna.
+  casona:     [{id:"producido",  label:"Producido",           short:"PROD"}],
+  // Fabrica: solo reporta lo ETIQUETADO del dia. Recibidos y despachos
+  // van por NOTAS DE TRASLADO con confirmacion.
+  fabrica:    [{id:"etiquetado", label:"Etiquetado",          short:"ETIQ"}],
+  // Valledupar: bodega de venta. NO reporta ventas: Siigo lleva el
+  // inventario (entradas por traslados confirmados, salidas por
+  // facturas). La app en Valledupar solo confirma recibos y reporta
+  // danos/calidad/perdidas si aplica.
+  valledupar: []
+};
+
+// Lista de Materias Primas (MP) segun catalogo oficial Siigo:
+// ModeloPersonalizado-ImportacionProductos-20260418234906 INSUMOS DE PRODUCION.xlsx
+// Solo items marcados como (MP) o (MATERIA PRIMA)
+// Iconos SVG inline (profesionales) - colores alineados con la paleta La Ocanera
+const ICONOS_MP = {
+  durazno:  '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="gDur" cx="38%" cy="35%"><stop offset="0%" stop-color="#FFD7A8"/><stop offset="55%" stop-color="#F6A56B"/><stop offset="100%" stop-color="#C9662A"/></radialGradient></defs><path d="M24 10c-2.4-4.5-9-4.6-9-.6 0 1 .3 2 .8 3.2C12 15 9 19.5 9 25.5 9 34 15.8 41 24 41s15-7 15-15.5c0-6-3-10.5-6.8-12.9.5-1.2.8-2.2.8-3.2 0-4-6.6-3.9-9 .6z" fill="url(#gDur)"/><path d="M22 14q1-1 2 0t2 0" stroke="#8B4E19" stroke-width="1.2" stroke-linecap="round" fill="none"/><ellipse cx="17" cy="22" rx="3" ry="4.5" fill="#fff" opacity=".35"/><path d="M22 8c1.5-2 4.5-3 7-2-1.5.5-3 1.5-4 3-1 1-2 .5-3-1z" fill="#54A07F"/></svg>',
+  jalapeno_verde: '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gJV" x1="0" x2="1" y1="1" y2="0"><stop offset="0%" stop-color="#3E7F27"/><stop offset="55%" stop-color="#6BBA3E"/><stop offset="100%" stop-color="#A8E062"/></linearGradient></defs><path d="M13 33c-2 2.5-3.5 3-5 3.5-.6.2-.6 1 0 1.2 7 1.8 14.5-1 19.5-6.5s7-12.5 6.3-18.5c-.1-.7-1-.9-1.4-.3-1 1.3-2 2-3 2.2-.9 1.3-2 2.6-3.3 3.8C21 23.8 16.5 28.6 13 33z" fill="url(#gJV)"/><path d="M31 12c.5-1.5 1.5-3 3-4 1.5-.8 3-.6 4 .2-1.2.5-2 1.4-2.5 2.5-.5 1-1.5 2-3 2.5-1.2.3-2 .1-1.5-1.2z" fill="#4F7A2A"/><path d="M16 30c2-2 4-4.3 7-7" stroke="#fff" stroke-opacity=".4" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>',
+  jalapeno_rojo:  '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gJR" x1="0" x2="1" y1="1" y2="0"><stop offset="0%" stop-color="#8B1521"/><stop offset="55%" stop-color="#D43749"/><stop offset="100%" stop-color="#F37884"/></linearGradient></defs><path d="M13 33c-2 2.5-3.5 3-5 3.5-.6.2-.6 1 0 1.2 7 1.8 14.5-1 19.5-6.5s7-12.5 6.3-18.5c-.1-.7-1-.9-1.4-.3-1 1.3-2 2-3 2.2-.9 1.3-2 2.6-3.3 3.8C21 23.8 16.5 28.6 13 33z" fill="url(#gJR)"/><path d="M31 12c.5-1.5 1.5-3 3-4 1.5-.8 3-.6 4 .2-1.2.5-2 1.4-2.5 2.5-.5 1-1.5 2-3 2.5-1.2.3-2 .1-1.5-1.2z" fill="#54A07F"/><path d="M16 30c2-2 4-4.3 7-7" stroke="#fff" stroke-opacity=".4" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg>',
+  cebolla: '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="gCeb" cx="50%" cy="55%"><stop offset="0%" stop-color="#E6B8D5"/><stop offset="60%" stop-color="#B06094"/><stop offset="100%" stop-color="#6B2F5A"/></radialGradient></defs><path d="M24 9c-1 0-2 1-2 2.5 0 1 .4 2 .8 2.8C16 16 11 21.5 11 29c0 7.5 5.8 13 13 13s13-5.5 13-13c0-7.5-5-13-11.8-14.7.5-.8.8-1.8.8-2.8 0-1.5-1-2.5-2-2.5z" fill="url(#gCeb)"/><path d="M24 16q-2 6-2 13 0 7 2 12" stroke="#6B2F5A" stroke-opacity=".55" stroke-width="1.2" fill="none"/><path d="M19 18q-2 5-2 11 0 6 2 11" stroke="#6B2F5A" stroke-opacity=".4" stroke-width="1" fill="none"/><path d="M29 18q2 5 2 11 0 6-2 11" stroke="#6B2F5A" stroke-opacity=".4" stroke-width="1" fill="none"/><path d="M22 9c-1-3 3-4 4-1" stroke="#54A07F" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>',
+  pina: '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gPi" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#FFE26E"/><stop offset="60%" stop-color="#F0B221"/><stop offset="100%" stop-color="#A5730D"/></linearGradient></defs><path d="M24 6c-2 3-4 5-3 7-3 1-4 3-3 5 2 1 4 1 6 1s4 0 6-1c1-2 0-4-3-5 1-2-1-4-3-7z" fill="#54A07F"/><path d="M18 6q2 4 2 8" stroke="#3C7058" stroke-width="1.2" stroke-linecap="round" fill="none"/><path d="M30 6q-2 4-2 8" stroke="#3C7058" stroke-width="1.2" stroke-linecap="round" fill="none"/><ellipse cx="24" cy="28" rx="10" ry="13" fill="url(#gPi)"/><path d="M16 22l8-4 8 4M16 28l8-4 8 4M16 34l8-4 8 4" stroke="#7D5205" stroke-width="1.1" fill="none"/><path d="M24 18v20" stroke="#7D5205" stroke-opacity=".5" stroke-width=".8" fill="none"/></svg>',
+  breva: '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="gBre" cx="50%" cy="60%"><stop offset="0%" stop-color="#B08AC4"/><stop offset="60%" stop-color="#6A3F86"/><stop offset="100%" stop-color="#3D1E55"/></radialGradient></defs><path d="M24 10c-1 0-2 .5-2.5 1.5-.8 1.5-1 3-.5 4.5-5.5 2-9 6.5-9 12C12 35 17.5 41 24 41s12-6 12-13c0-5.5-3.5-10-9-12 .5-1.5.3-3-.5-4.5-.5-1-1.5-1.5-2.5-1.5z" fill="url(#gBre)"/><path d="M22 10c-1-2 .5-4 2-4 1.5 0 2.5 1 2.5 2.5" stroke="#54A07F" stroke-width="1.5" stroke-linecap="round" fill="none"/><ellipse cx="19" cy="22" rx="2.5" ry="4" fill="#fff" opacity=".25"/><circle cx="22" cy="30" r=".8" fill="#fff" opacity=".6"/><circle cx="27" cy="28" r=".7" fill="#fff" opacity=".5"/><circle cx="25" cy="35" r=".7" fill="#fff" opacity=".5"/></svg>',
+  pepinillo_tajar:  '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gPpT" x1="0" x2="1" y1="1" y2="0"><stop offset="0%" stop-color="#3C7E2A"/><stop offset="55%" stop-color="#6BB94A"/><stop offset="100%" stop-color="#A2D76E"/></linearGradient></defs><path d="M11 38c-1.5 1.5-1 4 1 4 3 0 6-1 9-3 7-4.5 14-12 16-20 .5-2-1.5-4-3.5-3-8 2-15 9-19.5 16-1.5 2-2 4-3 6z" fill="url(#gPpT)"/><path d="M17 32l4-1M20 29l4-1M23 26l4-1M26 23l4-1M29 20l4-1" stroke="#2A5A1E" stroke-width=".9" stroke-linecap="round" fill="none" opacity=".55"/><path d="M12 40l3-1.5" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M34 10c1.5-1.5 3-2 4-1-.7.7-1.2 1.5-1.5 2.5" stroke="#3C7E2A" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>',
+  pepinillo_entero: '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gPpE" x1="0" x2="1" y1="1" y2="0"><stop offset="0%" stop-color="#2F6B20"/><stop offset="55%" stop-color="#4E9E36"/><stop offset="100%" stop-color="#7AC35A"/></linearGradient></defs><path d="M10 36c-1.5 1.5 0 4 2 4 3 0 6-1.5 9-3.5 7-5 15-13 17-22 .5-2-1.5-4-3.5-3-8 3-15 10-20 18-1.5 2-2.5 4.5-4.5 6.5z" fill="url(#gPpE)"/><circle cx="18" cy="30" r=".9" fill="#213A15" opacity=".6"/><circle cx="22" cy="27" r=".9" fill="#213A15" opacity=".6"/><circle cx="26" cy="24" r=".9" fill="#213A15" opacity=".6"/><circle cx="30" cy="21" r=".9" fill="#213A15" opacity=".6"/><circle cx="34" cy="18" r=".9" fill="#213A15" opacity=".6"/><path d="M33 10c1.5-1.5 3-2 4-1-.7.7-1.2 1.5-1.5 2.5" stroke="#2F6B20" stroke-width="1.3" stroke-linecap="round" fill="none"/></svg>',
+  leche: '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gLe" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="100%" stop-color="#E5EEF7"/></linearGradient></defs><path d="M18 7h12v5l2 3v23c0 1.5-1 2.5-2.5 2.5h-11c-1.5 0-2.5-1-2.5-2.5V15l2-3z" fill="url(#gLe)" stroke="#375090" stroke-width="1.3" stroke-linejoin="round"/><rect x="16" y="15" width="16" height="6" fill="#375090"/><text x="24" y="19.5" text-anchor="middle" font-family="Arial Black, Arial" font-size="4.5" font-weight="900" fill="#FFE26E">LECHE</text><rect x="17.5" y="24" width="13" height="10" fill="#fff" stroke="#CFD8E3" stroke-width=".8"/><circle cx="24" cy="29" r="3" fill="none" stroke="#54A07F" stroke-width="1.3"/><path d="M22.5 29l1.3 1.3 2.2-2.6" stroke="#54A07F" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>'
+};
+
+const MATERIAS_PRIMAS = [
+  {id:"durazno",          codigo:"DURAZNO-FRUTA",      nombre:"Durazno en fruta",                 icono:ICONOS_MP.durazno,         tint:"#FDF1E3"},
+  {id:"jalapeno_verde",   codigo:"JALAPE\u00d1O-VERDE",nombre:"Jalape\u00f1o verde en fruta",     icono:ICONOS_MP.jalapeno_verde,  tint:"#EEF9E2"},
+  {id:"jalapeno_rojo",    codigo:"JALAPE\u00d1O-ROJO", nombre:"Jalape\u00f1o rojo en fruta",      icono:ICONOS_MP.jalapeno_rojo,   tint:"#FBE7E9"},
+  {id:"cebolla",          codigo:"CEBOLLA-FRUTA",      nombre:"Cebolla roja en fruta",            icono:ICONOS_MP.cebolla,         tint:"#F7EAF2"},
+  {id:"pina",             codigo:"PI\u00d1A-FRUTA",    nombre:"Pi\u00f1a en fruta",               icono:ICONOS_MP.pina,            tint:"#FFF7DC"},
+  {id:"breva",            codigo:"BREVA-FRUTA",        nombre:"Breva en fruta",                   icono:ICONOS_MP.breva,           tint:"#F0E6F5"},
+  {id:"pepinillo_tajar",  codigo:"PEPINILLO-TAJAR",    nombre:"Pepinillo para tajar",             icono:ICONOS_MP.pepinillo_tajar, tint:"#EEF7E1"},
+  {id:"pepinillo_entero", codigo:"PEPINILLO-ENTERO",   nombre:"Pepinillo para procesar entero",   icono:ICONOS_MP.pepinillo_entero,tint:"#E4F1DA"},
+  {id:"leche",            codigo:"LECHE-ENTERA",       nombre:"Leche entera",                     icono:ICONOS_MP.leche,           tint:"#EAF1FA"}
+];
+
+const SEDE_INFO = {
+  casona: {
+    name:"CASONA", title:"Reporte CASONA", sub:"Produccion / Envasado", icon:"Casona",
+    helpText:"Registra la PRODUCCION del dia (envasado). Lo que mandes a Fabrica o Valledupar va por NOTAS DE TRASLADO; el destino confirma el recibo por la app."
+  },
+  fabrica: {
+    name:"FABRICA", title:"Reporte FABRICA", sub:"Loteo / Etiquetado / Empacado", icon:"Fabrica",
+    helpText:"Reporta SOLO lo ETIQUETADO hoy. Recibidos de Casona y despachos van por NOTAS DE TRASLADO. Cuando te llegue una nota, la confirmas desde 'Traslados pendientes'."
+  },
+  valledupar: {
+    name:"VALLEDUPAR", title:"Reporte VALLEDUPAR", sub:"Bodega de venta (Cesar)", icon:"Valledupar",
+    helpText:"En Valledupar NO se reportan ventas: Siigo lleva el inventario (entradas por traslados, salidas por facturas). Desde la app solo confirmas los TRASLADOS recibidos desde Ocana, y puedes reportar danos o calidad si aplica."
+  }
+};
+
+const state = { sede:null, step:1, productos:[], materiaPrima:{}, traslados:[], insumosDanados:[], defectuosos:[], perdidas:[], pendientes:[], recibosLocal:[] };
+function initMateriaPrima(){
+  state.materiaPrima = {};
+  MATERIAS_PRIMAS.forEach(m=>{ state.materiaPrima[m.id] = {kg:"", precio:""}; });
+}
+function initExtras(){
+  state.traslados = [];
+  state.insumosDanados = [];
+  state.defectuosos = [];
+  state.perdidas = [];
+}
+initMateriaPrima();
+initExtras();
+
+// Catalogos de razones/motivos
+// Compatibilidad: variables antiguas CF/FC mantenidas (no usadas)
+const RAZONES_TRASLADO_CF = [
+  "Producto terminado (pasa a etiquetado y empaque)"
+];
+const RAZONES_TRASLADO_FC = [
+  "Devolucion del cliente",
+  "Producto defectuoso",
+  "Reproceso",
+  "Ajuste de inventario",
+  "Otro"
+];
+// Matriz de motivos por ruta [origen][destino]
+const RAZONES_TRASLADO = {
+  casona: {
+    fabrica:    ["Producto terminado (pasa a etiquetado y empaque)"],
+    valledupar: ["Despacho a bodega Valledupar", "Ajuste de inventario", "Otro"]
+  },
+  fabrica: {
+    casona:     ["Devolucion del cliente", "Producto defectuoso", "Reproceso", "Ajuste de inventario", "Otro"],
+    valledupar: ["Despacho a bodega Valledupar", "Pedido cliente Valledupar", "Ajuste de inventario", "Otro"]
+  },
+  valledupar: {
+    casona:     ["Producto defectuoso", "Devolucion del cliente", "Ajuste de inventario", "Otro"],
+    fabrica:    ["Producto defectuoso", "Devolucion del cliente", "Ajuste de inventario", "Otro"]
+  }
+};
+const NOMBRES_SEDE = { casona:"CASONA", fabrica:"FABRICA", valledupar:"VALLEDUPAR" };
+const INSUMOS_CATALOG = [{"grupo": "Envases de vidrio", "items": [{"codigo": "C1265-PELDAR", "nombre": "ENVASE DE VIDRIO 1000 CC PELDAR - REFERENCIA C1265"}, {"codigo": "4451-PELDAR", "nombre": "ENVASE DE VIDRIO 125 CC PELDAR - REFERENCIA 4451"}, {"codigo": "EA4186-PELDAR", "nombre": "ENVASE DE VIDRIO 130 CC PELDAR - REFERENCIA EA4186 -TIPO COMPOTA"}, {"codigo": "C3368-PELDAR", "nombre": "ENVASE DE VIDRIO 250 CC PELDAR - REFERENCIA C3368"}, {"codigo": "C3590-PELDAR", "nombre": "ENVASE DE VIDRIO 250 CC PELDAR - REFERENCIA C3590 (TIPO BOMBILLO)"}, {"codigo": "C1266-PELDAR", "nombre": "ENVASE DE VIDRIO 4000 CC PELDAR - REFERENCIA C1266"}, {"codigo": "C3369-PELDAR", "nombre": "ENVASE DE VIDRIO 500 CC PELDAR - REFERENCIA C3369"}]}, {"grupo": "Tapas", "items": [{"codigo": "G4000CCDUQUEB90", "nombre": "ENVASE DE 4000CC CILINDRICO TRANSPARENTE CON TAPA PLASTICA Y FOIL B90 DUQUE"}, {"codigo": "ENVASE-PET60mL", "nombre": "ENVASE PET CUADRADO DE 60mL CON TAPA - PROVEEDOR POLIMERICA"}, {"codigo": "TAPA-B48-BLANCA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B48 -BLANCA"}, {"codigo": "TAPA-B48-DORADA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B48 -DORADA"}, {"codigo": "TAPA-B48-MANTELROJA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B48 -MANTEL ROJA"}, {"codigo": "TAPA-B48-MANTELVERDE", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B48 -MANTEL VERDE"}, {"codigo": "TAPA-B48-PLATEADA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B48 -PLATEADA"}, {"codigo": "TAPA-B48-ROJA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B48 -ROJA"}, {"codigo": "TAPA-B48-VERDE", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B48 -VERDE"}, {"codigo": "TAPA-B53-BLANCA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B53 -BLANCA"}, {"codigo": "TAPA-B53-DORADA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B53 -DORADA"}, {"codigo": "TAPA-B53-MANTELROJA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B53 -MANTEL ROJA"}, {"codigo": "TAPA-B53-MANTELVERDE", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B53 -MANTEL VERDE"}, {"codigo": "TAPA-B53-PLATEADA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B53 -PLATEADA"}, {"codigo": "TAPA-B53-ROJA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B53 -ROJA"}, {"codigo": "TAPA-B53-VERDE", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B53 -VERDE"}, {"codigo": "TAPA-B63-BLANCA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B63 -BLANCA"}, {"codigo": "TAPA-B63-DORADA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B63 -DORADA"}, {"codigo": "TAPA-B63-MANTELROJA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B63 -MANTEL ROJA"}, {"codigo": "TAPA-B63-MANTELVERDE", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B63 -MANTEL VERDE"}, {"codigo": "TAPA-B63-PLATEADA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B63 -PLATEADA"}, {"codigo": "TAPA-B63-ROJA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B63 -ROJA"}, {"codigo": "TAPA-B63-VERDE", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B63 -VERDE"}, {"codigo": "TAPA-B89-BLANCA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B89 -BLANCA"}, {"codigo": "TAPA-B89-DORADA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B89 -DORADA"}, {"codigo": "TAPA-B89-ROJA", "nombre": "TAPA METÁLICA TWIST OFF ALTO PROCESO B89 -ROJA"}]}, {"grupo": "Cajas y cartones", "items": [{"codigo": "CAJACARTONC1265", "nombre": "CAJA DE EMPACOR (12 UNID)C1265  1000G CON DIVISIONES SIN LOGOS"}, {"codigo": "CAJA-C1265-12UND", "nombre": "CAJA DE EMPACOR (12 UNID)C1265  1000G CON DIVISIONES SIN LOGOS"}, {"codigo": "CAJACARTONC1266", "nombre": "CAJA DE EMPACOR C1266 4000G CON DIVISIONES (4 UNID) SIN LOGOS"}, {"codigo": "CAJA-C1266-4UND", "nombre": "CAJA DE EMPACOR C1266 4000G CON DIVISIONES (4 UNID) SIN LOGOS"}, {"codigo": "CAJACARTONC3368", "nombre": "CAJA DE EMPACOR C3368 250G CUAD CON DIVISIONES (24 UNID) SIN LOGOS"}, {"codigo": "CAJA-C3368-24UND", "nombre": "CAJA DE EMPACOR C3368 250G CUAD CON DIVISIONES (24 UNID) SIN LOGOS"}, {"codigo": "CAJACARTONC3369", "nombre": "CAJA DE EMPACOR C3369 500G CON DIVISIONES (24 UNID) SIN LOGOS"}, {"codigo": "CAJA-C3369-24UND", "nombre": "CAJA DE EMPACOR C3369 500G CON DIVISIONES (24 UNID) SIN LOGOS"}, {"codigo": "CAJACARTONC3590", "nombre": "CAJA DE EMPACOR C3590 250G BOMB CON DIVISIONES (24 UNID) SIN LOGOS"}, {"codigo": "CAJA-C3590-24UND", "nombre": "CAJA DE EMPACOR C3590 250G BOMB CON DIVISIONES (24 UNID) SIN LOGOS"}, {"codigo": "CAJA24UNID1264", "nombre": "CAJA POR 12 UNIDADES  DE C1264"}, {"codigo": "CAJA-C1264-12UND", "nombre": "CAJA POR 12 UNIDADES  DE C1264"}, {"codigo": "CAJA24UNID1265", "nombre": "CAJA POR 12 UNIDADES  DE C1265"}, {"codigo": "CAJA24UNID3368", "nombre": "CAJA POR 24 UNIDADES  DE 3368"}, {"codigo": "CAJA24UNID3369", "nombre": "CAJA POR 24 UNIDADES  DE 3369"}, {"codigo": "CAJA24UNID3370", "nombre": "CAJA POR 24 UNIDADES  DE 3370"}, {"codigo": "CAJA-C3370-24UND", "nombre": "CAJA POR 24 UNIDADES  DE 3370"}, {"codigo": "CAJA24UNID3373", "nombre": "CAJA POR 24 UNIDADES  DE 3373"}, {"codigo": "CAJA-C3373-24UND", "nombre": "CAJA POR 24 UNIDADES  DE 3373"}, {"codigo": "CAJA24UNID3413", "nombre": "CAJA POR 24 UNIDADES  DE 3413"}, {"codigo": "CAJA-C3413-24UND", "nombre": "CAJA POR 24 UNIDADES  DE 3413"}, {"codigo": "CAJA24UNID1261", "nombre": "CAJA POR 24 UNIDADES  DE C1261"}, {"codigo": "CAJA-C1261-24UND", "nombre": "CAJA POR 24 UNIDADES  DE C1261"}, {"codigo": "CAJA24UNID1263", "nombre": "CAJA POR 24 UNIDADES  DE C1263"}, {"codigo": "CAJA-C1263-24UND", "nombre": "CAJA POR 24 UNIDADES  DE C1263"}, {"codigo": "CAJA24UNID3590", "nombre": "CAJA POR 24 UNIDADES  DE C3590"}, {"codigo": "CAJA24UNID4451", "nombre": "CAJA POR 24 UNIDADES DE 4451"}, {"codigo": "CAJA-C4451-24UND", "nombre": "CAJA POR 24 UNIDADES DE 4451"}, {"codigo": "CAJA24UNID1266", "nombre": "CAJA POR 4 UNIDADES  DE C1266"}, {"codigo": "AMARILLOC11", "nombre": "COLOR ARTIFICIAL AMARILLO CLARO C 11 (CAJA X 250 Gr)"}]}, {"grupo": "Etiquetas y rotulados", "items": [{"codigo": "ETIQACEIDESHZ1000G", "nombre": "ETIQUETA DE ACEITUNA DESHUESADA DE 1000G"}, {"codigo": "ETIQACEIDESHZ125G", "nombre": "ETIQUETA DE ACEITUNA DESHUESADA DE 125G"}, {"codigo": "ETIQACEIDESHZ250G", "nombre": "ETIQUETA DE ACEITUNA DESHUESADA DE 250G"}, {"codigo": "ETIQACEIDESHZ4000G", "nombre": "ETIQUETA DE ACEITUNA DESHUESADA DE 4000G"}, {"codigo": "ETIQACEIDESHZ500G", "nombre": "ETIQUETA DE ACEITUNA DESHUESADA DE 500G"}, {"codigo": "ETIQACEIMANZ1000G", "nombre": "ETIQUETA DE ACEITUNA MANZANILLA DE 1000G"}, {"codigo": "ETIQACEIMANZ125G", "nombre": "ETIQUETA DE ACEITUNA MANZANILLA DE 125G"}, {"codigo": "ETIQACEIMANZ250G", "nombre": "ETIQUETA DE ACEITUNA MANZANILLA DE 250G"}, {"codigo": "ETIQACEIMANZ4000G", "nombre": "ETIQUETA DE ACEITUNA MANZANILLA DE 4000G"}, {"codigo": "ETIQACEIMANZ500G", "nombre": "ETIQUETA DE ACEITUNA MANZANILLA DE 500G"}, {"codigo": "ETIQACEIRELLPIMZ1000G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 1000G"}, {"codigo": "ETIQACEIRPIMZ1000G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 1000G"}, {"codigo": "ETIQACEIRELLPIMZ125G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 125G"}, {"codigo": "ETIQACEIRPIMZ125G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 125G"}, {"codigo": "ETIQACEIRELLPIMZ250G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 250G"}, {"codigo": "ETIQACEIRPIMZ250G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 250G"}, {"codigo": "ETIQACEIRELLPIMZ4000G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 4000G"}, {"codigo": "ETIQACEIRPIMZ4000G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 4000G"}, {"codigo": "ETIQACEIRELLPIMZ500G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 500G"}, {"codigo": "ETIQACEIRPIMZ500G", "nombre": "ETIQUETA DE ACEITUNA RELLENA DE PIMENTON DE 500G"}, {"codigo": "ETIQACEIMZ1000g", "nombre": "ETIQUETA DE ACEITUNAS MANZANILLA EN VINAGRE 1000g"}, {"codigo": "ETIQALCAPA1000G", "nombre": "ETIQUETA DE ALCAPARRA FINES DE 1000G"}, {"codigo": "ETIQALCAPA125G", "nombre": "ETIQUETA DE ALCAPARRA FINES DE 125G"}, {"codigo": "ETIQALCAPA250G", "nombre": "ETIQUETA DE ALCAPARRA FINES DE 250G"}, {"codigo": "ETIQALCAPA4000G", "nombre": "ETIQUETA DE ALCAPARRA FINES DE 4000G"}, {"codigo": "ETIQALCAPA500G", "nombre": "ETIQUETA DE ALCAPARRA FINES DE 500G"}, {"codigo": "ETIQALCAPA60G", "nombre": "ETIQUETA DE ALCAPARRA FINES DE 60G"}, {"codigo": "ETIQANTIPAST250G", "nombre": "ETIQUETA DE ANTIPASTO 250G"}, {"codigo": "ETIQANTIPAST500G", "nombre": "ETIQUETA DE ANTIPASTO 500G"}, {"codigo": "ETIQAREQBRE125GB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON BREVA DE 125G BOMBILLO"}, {"codigo": "ETIQAREQBRE300GBOMB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON BREVA DE 300G BOMBILLO"}, {"codigo": "ETIQAREQBRE300GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON BREVA DE 300G CUADRADO"}, {"codigo": "ETIQAREQBRE600GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON BREVA DE 600G CUADRADO"}, {"codigo": "ETIQAREQCAF125G", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON CAFE DE 125G BOMBILLO"}, {"codigo": "ETIQAREQCAF300GBOMB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON CAFE DE 300G BOMBILLO"}, {"codigo": "ETIQAREQCAF300GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON CAFE DE 300G CUADRADO"}, {"codigo": "ETIQAREQCAF600GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON CAFE DE 600G CUADRADO"}, {"codigo": "ETIQAREQCER125G", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON CEREZA DE 125G BOMBILLO"}, {"codigo": "ETIQAREQCER300GBOMB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON CEREZA DE 300G BOMBILLO"}, {"codigo": "ETIQAREQCER300GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON CEREZA DE 300G CUADRADO"}, {"codigo": "ETIQAREQCER600GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON CEREZA DE 600G CUADRADO"}, {"codigo": "ETIQAREQCOC125G", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON COCO DE 125G BOMBILLO"}, {"codigo": "ETIQAREQCOC300GBOMB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON COCO DE 300G BOMBILLO"}, {"codigo": "ETIQAREQCOC300GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON COCO DE 300G CUADRADO"}, {"codigo": "ETIQAREQCOC600GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON COCO DE 600G CUADRADO"}, {"codigo": "ETIQAREQDUR125G", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON DURAZNO DE 125G BOMBILLO"}, {"codigo": "ETIQAREQDUR300GBOMB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON DURAZNO DE 300G BOMBILLO"}, {"codigo": "ETIQAREQDUR300GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON DURAZNO DE 300G CUADRADO"}, {"codigo": "ETIQAREQDUR600GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON DURAZNO DE 600G CUADRADO"}, {"codigo": "ETIQAREQPIN125G", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON PIÑA DE 125G BOMBILLO"}, {"codigo": "ETIQAREQPIÑ300GBOMB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON PIÑA DE 300G BOMBILLO"}, {"codigo": "ETIQAREQPIÑ300GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON PIÑA DE 300G CUADRADO"}, {"codigo": "ETIQAREQPIÑ600GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL CON PIÑA DE 600G CUADRADO"}, {"codigo": "ETIQAREQNAT125G", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL NATURAL DE 125G BOMBILLO"}, {"codigo": "ETIQAREQNAT300GBOMB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL NATURAL DE 300G BOMBILLO"}, {"codigo": "ETIQARENAT300GBOMB", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL NATURAL DE 300G BOMBILLO"}, {"codigo": "ETIQAREQNAT300GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL NATURAL DE 300G CUADRADO"}, {"codigo": "ETIQAREQNAT600GCUAD", "nombre": "ETIQUETA DE AREQUIPE ARTESANAL NATURAL DE 600G CUADRADO"}, {"codigo": "ETIQBREV1000G", "nombre": "ETIQUETA DE BREVA EN ALMIBAR 1000G"}, {"codigo": "ETIQBREV250G", "nombre": "ETIQUETA DE BREVA EN ALMIBAR 250G"}, {"codigo": "ETIQBREV4000G", "nombre": "ETIQUETA DE BREVA EN ALMIBAR 4000G"}, {"codigo": "ETIQBREV500G", "nombre": "ETIQUETA DE BREVA EN ALMIBAR 500G"}, {"codigo": "ETIQCEB1000G", "nombre": "ETIQUETA DE CEBOLLA ROJA EN VINAGRE 1000G"}, {"codigo": "ETIQCEB125G", "nombre": "ETIQUETA DE CEBOLLA ROJA EN VINAGRE 125G"}, {"codigo": "ETIQCEB250GBOMB", "nombre": "ETIQUETA DE CEBOLLA ROJA EN VINAGRE 250G BOMBILLO"}, {"codigo": "ETIQCEB250GCUAD", "nombre": "ETIQUETA DE CEBOLLA ROJA EN VINAGRE 250G CUADRADO"}, {"codigo": "ETIQCEB370G", "nombre": "ETIQUETA DE CEBOLLA ROJA EN VINAGRE 370G"}, {"codigo": "ETIQCEB4000G", "nombre": "ETIQUETA DE CEBOLLA ROJA EN VINAGRE 4000G"}, {"codigo": "ETIQCEB500G", "nombre": "ETIQUETA DE CEBOLLA ROJA EN VINAGRE 500G"}, {"codigo": "ETIQCEB750G", "nombre": "ETIQUETA DE CEBOLLA ROJA EN VINAGRE 750G"}, {"codigo": "ETIQCEBPICANTE250G", "nombre": "ETIQUETA DE CEBOLLITAS EN SALSA PICANTE 250G"}, {"codigo": "ETIQCEBPICANTE500G", "nombre": "ETIQUETA DE CEBOLLITAS EN SALSA PICANTE 500G"}, {"codigo": "ETIQCERAZL1000G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO AZUL DE 1000G"}, {"codigo": "ETIQCERAZL250G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO AZUL DE 250G"}, {"codigo": "ETIQCERAZL250GBOMB", "nombre": "ETIQUETA DE CEREZA MARRASQUINO AZUL DE 250G BOMBILLO"}, {"codigo": "ETIQCERAZL4000G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO AZUL DE 4000G"}, {"codigo": "ETIQCERAZL500G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO AZUL DE 500G"}, {"codigo": "ETIQCEREROJA1000G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO ROJA DE 1000G"}, {"codigo": "ETIQCEREROJA125G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO ROJA DE 125G"}, {"codigo": "ETIQCEREROJA250G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO ROJA DE 250G"}, {"codigo": "ETIQCEREROJA250GBOMB", "nombre": "ETIQUETA DE CEREZA MARRASQUINO ROJA DE 250G BOMBILLO"}, {"codigo": "ETIQCEREROJA250GCUAD", "nombre": "ETIQUETA DE CEREZA MARRASQUINO ROJA DE 250G CUADRADO"}, {"codigo": "ETIQCEREROJA4000G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO ROJA DE 4000G"}, {"codigo": "ETIQCEREROJA500G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO ROJA DE 500G"}, {"codigo": "ETIQCERVRD1000G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO VERDE DE 1000G"}, {"codigo": "ETIQCERVRD250G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO VERDE DE 250G"}, {"codigo": "ETIQCERVRD250GBOMB", "nombre": "ETIQUETA DE CEREZA MARRASQUINO VERDE DE 250G BOMBILLO"}, {"codigo": "ETIQCERVRD4000G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO VERDE DE 4000G"}, {"codigo": "ETIQCERVRD500G", "nombre": "ETIQUETA DE CEREZA MARRASQUINO VERDE DE 500G"}, {"codigo": "ETIQCHAMPENT1000G", "nombre": "ETIQUETA DE CHAMPIÑON ENTERO DE 1000G"}, {"codigo": "ETIQCHAMPENT250G", "nombre": "ETIQUETA DE CHAMPIÑON ENTERO DE 250G"}, {"codigo": "ETIQCHAMPENT4000G", "nombre": "ETIQUETA DE CHAMPIÑON ENTERO DE 4000G"}, {"codigo": "ETIQCHAMPENT500G", "nombre": "ETIQUETA DE CHAMPIÑON ENTERO DE 500G"}, {"codigo": "ETIQCHAMPTAJ1000G", "nombre": "ETIQUETA DE CHAMPIÑON TAJADO DE 1000G"}, {"codigo": "ETIQCHAMPTAJ250G", "nombre": "ETIQUETA DE CHAMPIÑON TAJADO DE 250G"}, {"codigo": "ETIQCHAMPTAJ4000G", "nombre": "ETIQUETA DE CHAMPIÑON TAJADO DE 4000G"}, {"codigo": "ETIQCHAMPTAJ500G", "nombre": "ETIQUETA DE CHAMPIÑON TAJADO DE 500G"}, {"codigo": "ETIQDURPEPA4000G", "nombre": "ETIQUETA DE DURAZNO CON PEPA 4000G"}, {"codigo": "ETIQDURPEPA250GBOMB", "nombre": "ETIQUETA DE DURAZNO CON PEPA BOMBILLO DE 250G"}, {"codigo": "ETIQDURPEPA1000G", "nombre": "ETIQUETA DE DURAZNO CON PEPA CUADRADO DE 1000G"}, {"codigo": "ETIQDURPEPA250GCUAD", "nombre": "ETIQUETA DE DURAZNO CON PEPA CUADRADO DE 250G"}, {"codigo": "ETIQDURPEPA500G", "nombre": "ETIQUETA DE DURAZNO CON PEPA CUADRADO DE 500G"}, {"codigo": "ETIQDURPEPA750G", "nombre": "ETIQUETA DE DURAZNO CON PEPA CUADRADO DE 750G"}, {"codigo": "ETIQDURPEPA4000GTAJADO", "nombre": "ETIQUETA DE DURAZNO TAJADO DE 4000G"}, {"codigo": "ETIQDURTAJ1000G", "nombre": "ETIQUETA DE DURAZNO TAJADO EN ALMIBAR DE 1000G"}, {"codigo": "ETIQDURTAJ250G", "nombre": "ETIQUETA DE DURAZNO TAJADO EN ALMIBAR DE 250G"}, {"codigo": "ETIQDURTAJ4000G", "nombre": "ETIQUETA DE DURAZNO TAJADO EN ALMIBAR DE 4000G"}, {"codigo": "ETIQDURPEPA410G", "nombre": "ETIQUETA DE DURAZNOS EN MITADES EN ALMIBAR 410G"}, {"codigo": "ETIQDURPEPA820G", "nombre": "ETIQUETA DE DURAZNOS EN MITADES EN ALMIBAR 820G"}, {"codigo": "ETIQJALROD1000G", "nombre": "ETIQUETA DE JALAPEÑOS EN RODAJAS DE 1000G"}, {"codigo": "ETIQJALROD250G", "nombre": "ETIQUETA DE JALAPEÑOS EN RODAJAS DE 250G"}, {"codigo": "ETIQJALROD4000G", "nombre": "ETIQUETA DE JALAPEÑOS EN RODAJAS DE 4000G"}, {"codigo": "ETIQJALROD500G", "nombre": "ETIQUETA DE JALAPEÑOS EN RODAJAS DE 500G"}, {"codigo": "ETIQPEPIROD1000G", "nombre": "ETIQUETA DE PEPINILLOS AGRIDULCES EN RODAJAS DE 1000G"}, {"codigo": "ETIQPEPIROD250G", "nombre": "ETIQUETA DE PEPINILLOS AGRIDULCES EN RODAJAS DE 250G"}, {"codigo": "ETIQPEPIROD4000G", "nombre": "ETIQUETA DE PEPINILLOS AGRIDULCES EN RODAJAS DE 4000G"}, {"codigo": "ETIQPEPIROD500G", "nombre": "ETIQUETA DE PEPINILLOS AGRIDULCES EN RODAJAS DE 500G"}, {"codigo": "ETIQPEPENT1000G", "nombre": "ETIQUETA DE PEPINILLOS ENTEROS AGRIDULCES DE 1000G"}, {"codigo": "ETIQPEPENT250G", "nombre": "ETIQUETA DE PEPINILLOS ENTEROS AGRIDULCES DE 250G"}, {"codigo": "ETIQPEPENT4000G", "nombre": "ETIQUETA DE PEPINILLOS ENTEROS AGRIDULCES DE 4000G"}, {"codigo": "ETIQPEPENT500G", "nombre": "ETIQUETA DE PEPINILLOS ENTEROS AGRIDULCES DE 500G"}, {"codigo": "ETIQSALSA1000G", "nombre": "ETIQUETA DE SALSA PICANTE 1000G"}, {"codigo": "ETIQSALSA250G", "nombre": "ETIQUETA DE SALSA PICANTE 250G"}, {"codigo": "ETIQSALSA4000G", "nombre": "ETIQUETA DE SALSA PICANTE 4000G"}, {"codigo": "ETIQSALSA500G", "nombre": "ETIQUETA DE SALSA PICANTE 500G"}, {"codigo": "ETIQACEIMZ4000g", "nombre": "ETIQUETA PARA ACEITUNAS MANZANILLAS DE 4000g"}]}, {"grupo": "Ingredientes y aditivos", "items": [{"codigo": "ACETICO", "nombre": "ACIDO ACETICO GRADO ALIMENTICIO"}, {"codigo": "ASCORBICO", "nombre": "ACIDO ASCORBICO"}, {"codigo": "CITRICO", "nombre": "ACIDO CITRICO"}, {"codigo": "BENSODIO", "nombre": "BENZOATO DE SODIO"}, {"codigo": "SORPOTASIO", "nombre": "SORBATO DE POTASIO"}]}, {"grupo": "Otros insumos", "items": [{"codigo": "JALFRUROJO", "nombre": "AJI JALAPEÑO FRUTO ROJO"}, {"codigo": "BREVA-FRUTA", "nombre": "BREVA EN FRUTA (MP)"}, {"codigo": "CEBOLLA-FRUTA", "nombre": "CEBOLLA EN FRUTA (MP)"}, {"codigo": "CLOCALCIO", "nombre": "CLORURO DE CALCIO"}, {"codigo": "DURAZNO-FRUTA", "nombre": "DURAZNO EN FRUTA (MP)"}, {"codigo": "GOMA", "nombre": "GOMA XANTHAN"}, {"codigo": "JALAPEÑO-FRUTA", "nombre": "JALAPEÑO EN FRUTA (MATERIA PRIMA)"}, {"codigo": "LECHE-ENTERA", "nombre": "LECHE ENTERA (MP)"}, {"codigo": "MEGADUL", "nombre": "MEGADUL 100"}, {"codigo": "MEBISODIO", "nombre": "METABISULFITO DE SODIO"}, {"codigo": "PEPINILLO-ENTERO", "nombre": "PEPINILLO PARA PROCESAR ENTERO (MP)"}, {"codigo": "PEPINILLO-TAJAR", "nombre": "PEPINILLO PARA TAJAR (MP)"}, {"codigo": "PEPENTAGRIKG", "nombre": "PEPINILLOS AGRIDULCES ENTERO POR KILOS"}, {"codigo": "PIÑA-FRUTA", "nombre": "PIÑA EN FRUTA (MP)"}, {"codigo": "ROJO4R", "nombre": "ROJO No. 6 PONCEAU 4R"}, {"codigo": "SILICONA", "nombre": "SILICONA ANTIESPUMANTE"}, {"codigo": "SODAESCAMAS", "nombre": "SODA CAUSTICA EN ESCAMAS"}]}];
+const MOTIVOS_DEFECTO = [
+  "Producto vencido",
+  "Etiqueta danada",
+  "Tapa en mal estado",
+  "Producto en mal estado / apariencia",
+  "Mal rotulado / etiqueta equivocada",
+  "Otro"
+];
+const MOTIVOS_PERDIDA = [
+  "Robo",
+  "Producto partido",
+  "Producto golpeado",
+  "Derrame",
+  "Otro"
+];
+
+function dismissSplash(){
+  const s = document.getElementById("splashScreen");
+  if(s){ s.classList.add("hide"); setTimeout(function(){ s.style.display="none"; }, 600); }
+}
+
+function $(id){return document.getElementById(id)}
+function $$(sel){return document.querySelectorAll(sel)}
+
+function todayStr(){
+  const d = new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0')+"-"+String(d.getDate()).padStart(2,'0');
+}
+function suggestLote(){
+  const d = new Date();
+  return "L"+String(d.getFullYear()).slice(-2)+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+}
+function removeAccents(s){return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()}
+
+function showScreen(id){
+  $$(".screen").forEach(s=>s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function updateHeader(){
+  if(state.sede){
+    const info = SEDE_INFO[state.sede];
+    $("headerTitle").textContent = info.title;
+    $("headerSub").textContent = info.sub;
+  } else {
+    $("headerTitle").textContent = "Reporte Diario";
+    $("headerSub").textContent = "Conservas La Ocanera S.A.S.";
+  }
+  $("backBtn").style.display = (state.step>1) ? "inline-flex" : "none";
+}
+
+function updateSteps(){
+  const sd = $("stepDots");
+  sd.style.display = (state.step>1) ? "flex" : "none";
+  $$(".step-dot").forEach(d=>{
+    d.classList.remove("done","current");
+    const s = parseInt(d.dataset.step);
+    if(s < state.step) d.classList.add("done");
+    else if(s === state.step) d.classList.add("current");
+  });
+}
+
+function updateFooter(){
+  const f = $("footer"), btnNext = $("btnNext");
+  if(state.step === 1){ f.style.display="none"; return; }
+  f.style.display = "block";
+  if(state.step === 2){ btnNext.innerHTML = "Revisar &rsaquo;"; btnNext.style.display = ""; }
+  else if(state.step === 3){ btnNext.style.display = "none"; }
+}
+
+function setSede(sede){
+  state.sede = sede; state.step = 2; state.productos = [];
+  initMateriaPrima();
+  initExtras();
+  document.body.classList.remove("s-casona","s-fabrica","s-valledupar");
+  document.body.classList.add("s-"+sede);
+  if(!$("f_fecha").value) $("f_fecha").value = todayStr();
+  // Lote ya no se usa: f_lote queda vacio
+  const info = SEDE_INFO[sede];
+  $("formTitle").textContent = info.title + " - Reporte del dia";
+  $("colsHelpText").textContent = info.helpText;
+  $("mpSection").style.display = (sede === "casona") ? "block" : "none";
+  if(sede === "casona") renderMateriaPrima();
+  // Casona y Fabrica reportan su actividad clave; Valledupar no reporta
+  // productos (Siigo lleva el inventario con traslados + ventas).
+  const pSec = $("productosSection");
+  if(pSec) pSec.style.display = (sede === "valledupar") ? "none" : "";
+  const selSec = $("selectedSection");
+  if(selSec) selSec.style.display = (sede === "valledupar") ? "none" : "";
+  // Insumos danados solo aplica en Casona / Fabrica (produccion).
+  const inSec = $("insumosSection");
+  if(inSec) inSec.style.display = (sede === "valledupar") ? "none" : "";
+  // Lote eliminado: $("f_lote") queda como hidden vacio
+  // Ajustar textos dinamicos de traslados segun bodega
+  const th = $("trasladoHelp");
+  if(th){
+    if(sede === "casona") th.textContent = "Registra lo que envias a la Fabrica (producto terminado) o a Valledupar (despacho regional).";
+    else if(sede === "fabrica") th.textContent = "Registra devoluciones a Casona o despachos a la bodega de Valledupar.";
+    else if(sede === "valledupar") th.textContent = "Registra devoluciones a Casona o a Fabrica (reproceso, defectuosos, ajustes).";
+    else th.textContent = "Registra traslados con las otras bodegas.";
+  }
+  renderProductList("");
+  renderSelected();
+  renderTraslados();
+  refreshPendientes();
+  renderInsumos();
+  renderDefectuosos();
+  renderPerdidas();
+  showScreen("screen-form");
+  updateHeader(); updateSteps(); updateFooter();
+}
+
+// ====== MATERIA PRIMA ======
+function fmtMoney(n){
+  n = Math.round(n||0);
+  return "$" + n.toLocaleString('es-CO');
+}
+function fmtKg(n){
+  n = n || 0;
+  return n.toLocaleString('es-CO',{minimumFractionDigits:0,maximumFractionDigits:2}) + " kg";
+}
+function renderMateriaPrima(){
+  const wrap = $("mpCards");
+  if(!wrap) return;
+  let html = "";
+  MATERIAS_PRIMAS.forEach(function(m){
+    const d = state.materiaPrima[m.id] || {kg:"", precio:""};
+    const kg = parseFloat(d.kg) || 0;
+    const pr = parseFloat(d.precio) || 0;
+    const sub = kg * pr;
+    const hasVal = (kg > 0 && pr > 0);
+    html += '<div class="mp-card'+(hasVal?' has-val':'')+'" id="mpCard_'+m.id+'">';
+    html += '<div class="mp-card-hd"><div class="mp-icon" style="background:'+m.tint+'">'+m.icono+'</div><div class="mp-name">'+m.nombre+'</div></div>';
+    html += '<div class="mp-inputs">';
+    html += '<div class="mp-input-wrap"><label>Kilos</label>';
+    html += '<input type="number" inputmode="decimal" step="0.1" min="0" id="mp_kg_'+m.id+'" placeholder="0" value="'+(d.kg||"")+'" onfocus="this.select()" oninput="updateMP(\''+m.id+'\')">';
+    html += '<span class="unit">kg</span></div>';
+    html += '<div class="mp-input-wrap"><label>Precio / kg</label>';
+    html += '<input type="number" inputmode="numeric" step="100" min="0" id="mp_pr_'+m.id+'" placeholder="0" value="'+(d.precio||"")+'" onfocus="this.select()" oninput="updateMP(\''+m.id+'\')">';
+    html += '<span class="unit">$</span></div>';
+    html += '</div>';
+    html += '<div class="mp-subtotal"><span class="mp-st-lbl">Subtotal</span><span class="mp-st-val" id="mp_st_'+m.id+'">'+fmtMoney(sub)+'</span></div>';
+    html += '</div>';
+  });
+  wrap.innerHTML = html;
+  updateMPTotals();
+}
+function updateMP(id){
+  const kgEl = $("mp_kg_"+id), prEl = $("mp_pr_"+id);
+  if(!kgEl || !prEl) return;
+  state.materiaPrima[id] = { kg: kgEl.value, precio: prEl.value };
+  const kg = parseFloat(kgEl.value) || 0;
+  const pr = parseFloat(prEl.value) || 0;
+  const sub = kg * pr;
+  const stEl = $("mp_st_"+id);
+  if(stEl) stEl.textContent = fmtMoney(sub);
+  const card = $("mpCard_"+id);
+  if(card){
+    if(kg > 0 && pr > 0) card.classList.add("has-val");
+    else card.classList.remove("has-val");
+  }
+  updateMPTotals();
+}
+function updateMPTotals(){
+  let totalKg = 0, totalVal = 0;
+  MATERIAS_PRIMAS.forEach(function(m){
+    const d = state.materiaPrima[m.id] || {};
+    const kg = parseFloat(d.kg) || 0;
+    const pr = parseFloat(d.precio) || 0;
+    totalKg += kg;
+    totalVal += kg * pr;
+  });
+  const kEl = $("mpTotalKg"), vEl = $("mpTotalVal");
+  if(kEl) kEl.textContent = fmtKg(totalKg);
+  if(vEl) vEl.textContent = fmtMoney(totalVal);
+}
+function getMPArray(){
+  return MATERIAS_PRIMAS.map(function(m){
+    const d = state.materiaPrima[m.id] || {};
+    const kg = parseFloat(d.kg) || 0;
+    const pr = parseFloat(d.precio) || 0;
+    return { id:m.id, nombre:m.nombre, kg:kg, precio:pr, subtotal: kg*pr };
+  }).filter(function(x){ return x.kg > 0 || x.precio > 0; });
+}
+
+$("searchInput").addEventListener("input", e=>renderProductList(e.target.value));
+
+function renderProductList(query){
+  const list = $("prodList");
+  list.innerHTML = "";
+  const q = removeAccents(query.trim());
+  const selectedMap = new Map(state.productos.map((p,i)=>[p.sku, i]));
+  let results = PRODUCTOS;
+  if(q){
+    results = PRODUCTOS.filter(p=>{
+      const n = removeAccents(p.nombre), s = (p.sku||"").toLowerCase();
+      return n.includes(q) || s.includes(q) || removeAccents(p.group||"").includes(q);
+    });
+  }
+  if(results.length === 0){
+    list.innerHTML = '<div style="padding:30px 16px;text-align:center;color:#64748b;font-size:14px">No se encontro ningun producto.</div>';
+    return;
+  }
+  const max = q ? Math.min(results.length, 60) : 40;
+  let shown = 0;
+  for(let i=0;i<results.length && shown<max;i++){
+    const p = results[i];
+    shown++;
+    const isAdded = selectedMap.has(p.sku);
+    const item = document.createElement("div");
+    item.className = "prod-item" + (isAdded ? " added" : "");
+    item.innerHTML = '<div class="info"><div class="name">'+
+                     (p.group?'<span class="group-badge">'+p.group+'</span>':'')+p.nombre+'</div>'+
+                     '<div class="sku">SKU: '+p.sku+(p.unds?' - '+p.unds+' unds/caja':'')+'</div></div>'+
+                     '<div class="add-icon">'+(isAdded?'&#10003;':'+')+'</div>';
+    item.onclick = ()=>{
+      if(isAdded) openQtyModal(p, selectedMap.get(p.sku));
+      else openQtyModal(p, null);
+    };
+    list.appendChild(item);
+  }
+  if(!q){
+    const more = document.createElement("div");
+    more.style.cssText = "padding:12px;text-align:center;color:#64748b;font-size:13px;background:#f8fafc;border-top:1px solid #f1f5f9";
+    more.innerHTML = 'Escribe arriba para buscar entre <b>'+PRODUCTOS.length+'</b> productos';
+    list.appendChild(more);
+  }
+}
+
+// ====== QTY MODAL ======
+function openQtyModal(p, editIndex){
+  const cols = COLUMNAS[state.sede];
+  let baseVals = {};
+  cols.forEach(c=>baseVals[c.id] = 0);
+  if(editIndex !== null && editIndex !== undefined){
+    const existing = state.productos[editIndex];
+    cols.forEach(c=>{ baseVals[c.id] = parseInt(existing.cantidades[c.id]||0,10) || 0; });
+  }
+  state.qEditing = { product:p, editIndex:editIndex, values:baseVals, activeCol: cols[0].id };
+  $("qmodalTitle").innerHTML = (p.group?'<span class="group-badge">'+p.group+'</span> ':'')+p.nombre;
+  $("qmodalSku").textContent = "SKU: "+p.sku+(p.unds?" - "+p.unds+" unds/caja":"");
+  renderQtyModalBody();
+  $("qmodalBg").classList.add("show");
+}
+
+function renderQtyModalBody(){
+  const cols = COLUMNAS[state.sede];
+  const body = $("qmodalBody");
+  const vals = state.qEditing.values;
+  const activeCol = state.qEditing.activeCol;
+  let html = '<div class="qtabs">';
+  cols.forEach(c=>{
+    const v = vals[c.id] || 0;
+    const isActive = (c.id === activeCol);
+    const hasVal = v > 0;
+    html += '<button type="button" class="qtab'+(isActive?' active':'')+(hasVal?' has-val':'')+'" onclick="qActivateTab(\''+c.id+'\')">'
+         +  c.short
+         +  '<span class="tab-val" id="qTabVal_'+c.id+'">'+v+'</span>'
+         +  '</button>';
+  });
+  html += '</div>';
+  const curVal = vals[activeCol] || 0;
+  html += '<div class="qbig-display'+(curVal===0?' zero':'')+'" id="qDisp">'+curVal+'</div>';
+  html += '<div class="qkeypad">';
+  [1,2,3].forEach(n=>{ html += '<button type="button" class="qkey" onclick="qKeyPress('+n+')">'+n+'</button>'; });
+  [4,5,6].forEach(n=>{ html += '<button type="button" class="qkey" onclick="qKeyPress('+n+')">'+n+'</button>'; });
+  [7,8,9].forEach(n=>{ html += '<button type="button" class="qkey" onclick="qKeyPress('+n+')">'+n+'</button>'; });
+  html += '<button type="button" class="qkey clear" onclick="qClearCurrent()">BORRAR</button>';
+  html += '<button type="button" class="qkey" onclick="qKeyPress(0)">0</button>';
+  html += '<button type="button" class="qkey back" onclick="qBackspace()">&larr;</button>';
+  html += '</div>';
+  body.innerHTML = html;
+}
+
+function qActivateTab(colId){
+  state.qEditing.activeCol = colId;
+  renderQtyModalBody();
+}
+
+function qKeyPress(digit){
+  const colId = state.qEditing.activeCol;
+  let v = state.qEditing.values[colId] || 0;
+  v = v * 10 + digit;
+  if(v > 99999) v = 99999;
+  state.qEditing.values[colId] = v;
+  const d = $("qDisp");
+  if(d){ d.textContent = v; d.classList.remove("zero"); }
+  const tv = $("qTabVal_"+colId);
+  if(tv) tv.textContent = v;
+}
+
+function qBackspace(){
+  const colId = state.qEditing.activeCol;
+  let v = state.qEditing.values[colId] || 0;
+  v = Math.floor(v / 10);
+  state.qEditing.values[colId] = v;
+  const d = $("qDisp");
+  if(d){ d.textContent = v; if(v===0) d.classList.add("zero"); else d.classList.remove("zero"); }
+  const tv = $("qTabVal_"+colId);
+  if(tv) tv.textContent = v;
+}
+
+function qClearCurrent(){
+  const colId = state.qEditing.activeCol;
+  state.qEditing.values[colId] = 0;
+  const d = $("qDisp");
+  if(d){ d.textContent = 0; d.classList.add("zero"); }
+  const tv = $("qTabVal_"+colId);
+  if(tv) tv.textContent = 0;
+}
+
+function cancelQty(){
+  $("qmodalBg").classList.remove("show");
+  state.qEditing = null;
+}
+
+function saveQty(){
+  if(!state.qEditing) return;
+  const cols = COLUMNAS[state.sede];
+  const { product, editIndex, values } = state.qEditing;
+  const anyVal = cols.some(c=>values[c.id] > 0);
+  if(!anyVal){
+    if(editIndex !== null && editIndex !== undefined){
+      state.productos.splice(editIndex, 1);
+    }
+    $("qmodalBg").classList.remove("show");
+    state.qEditing = null;
+    renderSelected();
+    renderProductList($("searchInput").value);
+    return;
+  }
+  const cantidades = {};
+  cols.forEach(c=>{ cantidades[c.id] = values[c.id] > 0 ? String(values[c.id]) : ""; });
+  if(editIndex !== null && editIndex !== undefined){
+    state.productos[editIndex].cantidades = cantidades;
+  } else {
+    state.productos.push({sku:product.sku, nombre:product.nombre, group:product.group, unds:product.unds, cantidades:cantidades});
+  }
+  $("qmodalBg").classList.remove("show");
+  state.qEditing = null;
+  renderSelected();
+  renderProductList($("searchInput").value);
+}
+
+function renderSelected(){
+  const sec = $("selectedSection"), list = $("selectedList"), cnt = $("selCount");
+  if(state.productos.length === 0){ sec.style.display="none"; return; }
+  sec.style.display = "block";
+  cnt.textContent = state.productos.length;
+  list.innerHTML = "";
+  const cols = COLUMNAS[state.sede];
+  state.productos.forEach((p,i)=>{
+    const item = document.createElement("div");
+    item.className = "sel-item";
+    let badgesHtml = '<div class="sel-badges">';
+    cols.forEach(c=>{
+      const v = parseInt(p.cantidades[c.id]||0,10) || 0;
+      const hasVal = v > 0;
+      badgesHtml += '<span class="sel-badge'+(hasVal?' has-val':'')+'"><span class="blbl">'+c.short+'</span><span class="bval">'+(hasVal?v:'0')+'</span></span>';
+    });
+    badgesHtml += '</div>';
+    item.innerHTML = '<div class="sel-head">'+
+                     '<div class="sel-name">'+p.nombre+'<div class="sel-sku">SKU: '+p.sku+(p.unds?' - '+p.unds+' unds/caja':'')+'</div></div>'+
+                     '<button class="del-btn" onclick="event.stopPropagation();removeProduct('+i+')">Quitar</button>'+
+                     '</div>' + badgesHtml +
+                     '<div class="sel-tap-hint">Toca para cambiar cantidades</div>';
+    item.onclick = ()=>openQtyModal(p, i);
+    list.appendChild(item);
+  });
+}
+
+function removeProduct(i){
+  state.productos.splice(i,1);
+  renderSelected();
+  renderProductList($("searchInput").value);
+}
+
+function validate(){
+  const errors = [];
+  if(!$("f_operario").value.trim()) errors.push("FALTA SELECCIONAR TU NOMBRE");
+  if(!$("f_fecha").value) errors.push("FALTA LA FECHA");
+  if(state.productos.length > 0){
+    const sinCant = state.productos.filter(p=>!Object.values(p.cantidades).some(v=>parseInt(v||0,10) > 0));
+    if(sinCant.length > 0) errors.push("FALTA ESCRIBIR CANTIDAD EN "+sinCant.length+" PRODUCTO(S)");
+  }
+  const mpArr = (typeof getMPArray === "function") ? getMPArray() : [];
+  const obs = ($("observaciones").value||"").trim();
+  const hayAlgo = state.productos.length > 0
+    || (mpArr && mpArr.length > 0)
+    || (state.traslados && state.traslados.length > 0)
+    || (state.insumosDanados && state.insumosDanados.length > 0)
+    || (state.defectuosos && state.defectuosos.length > 0)
+    || (state.perdidas && state.perdidas.length > 0)
+    || obs.length > 0;
+  if(!hayAlgo) errors.push("EL REPORTE ESTA VACIO: AGREGA TRASLADOS, INSUMOS DANADOS, CALIDAD, PERDIDAS U OBSERVACIONES");
+  return errors;
+}
+
+function buildSummary(){
+  const box = $("summaryBox");
+  const info = SEDE_INFO[state.sede];
+  const cols = COLUMNAS[state.sede];
+  const obs = $("observaciones").value.trim();
+  let html = '<div class="summary">';
+  html += '<h3>Datos del reporte</h3>';
+  html += '<div class="summary-row"><span class="k">Bodega:</span><span class="v">'+info.name+'</span></div>';
+  html += '<div class="summary-row"><span class="k">Operario:</span><span class="v">'+$("f_operario").value+'</span></div>';
+  html += '<div class="summary-row"><span class="k">Fecha:</span><span class="v">'+$("f_fecha").value+'</span></div>';
+  html += '<div class="summary-row"><span class="k">Lote:</span><span class="v">'+$("f_lote").value+'</span></div>';
+  if(obs) html += '<div class="summary-row"><span class="k">Observaciones:</span><span class="v">'+obs+'</span></div>';
+  html += '</div>';
+  const totals = {};
+  cols.forEach(c=>totals[c.id] = 0);
+  state.productos.forEach(p=>cols.forEach(c=>{ totals[c.id] += parseInt(p.cantidades[c.id]||0,10) || 0; }));
+  html += '<div class="summary"><h3>Totales del dia</h3><div class="totals-grid">';
+  cols.forEach(c=>{
+    html += '<div class="tot-box"><div class="tb-lbl">'+c.label+'</div><div class="tb-val">'+totals[c.id].toLocaleString('es-CO')+'</div></div>';
+  });
+  html += '</div></div>';
+  if(state.sede === "casona"){
+    const mpArr = getMPArray();
+    if(mpArr.length > 0){
+      let totKg = 0, totVal = 0;
+      mpArr.forEach(function(x){ totKg += x.kg; totVal += x.subtotal; });
+      html += '<div class="summary"><h3>Materia Prima Recibida</h3>';
+      html += '<table class="sum-tbl"><thead><tr><th>Insumo</th><th>Kilos</th><th>$/kg</th><th>Subtotal</th></tr></thead><tbody>';
+      mpArr.forEach(function(x){
+        html += '<tr><td>'+x.nombre+'</td><td>'+fmtKg(x.kg)+'</td><td>'+fmtMoney(x.precio)+'</td><td style="font-weight:800;color:#166534">'+fmtMoney(x.subtotal)+'</td></tr>';
+      });
+      html += '<tr class="total-row"><td>TOTAL</td><td>'+fmtKg(totKg)+'</td><td>-</td><td>'+fmtMoney(totVal)+'</td></tr>';
+      html += '</tbody></table></div>';
+    }
+  }
+  html += '<div class="summary"><h3>Productos ('+state.productos.length+')</h3>';
+  html += '<table class="sum-tbl"><thead><tr><th>Producto</th>';
+  cols.forEach(c=>{ html += '<th>'+c.short+'</th>'; });
+  html += '</tr></thead><tbody>';
+  state.productos.forEach(p=>{
+    html += '<tr><td>'+p.nombre+'<div style="font-size:10px;color:#64748b">'+p.sku+'</div></td>';
+    cols.forEach(c=>{
+      const v = parseInt(p.cantidades[c.id]||0,10) || 0;
+      html += '<td'+(v>0?' style="color:#16a34a;font-weight:800"':' style="color:#cbd5e1"')+'>'+(v>0?v:'-')+'</td>';
+    });
+    html += '</tr>';
+  });
+  html += '<tr class="total-row"><td>TOTALES</td>';
+  cols.forEach(c=>{ html += '<td>'+totals[c.id]+'</td>'; });
+  html += '</tr></tbody></table></div>';
+  // Traslados
+  if(state.traslados.length > 0){
+    html += '<div class="summary"><h3>Traslados entre bodegas ('+state.traslados.length+')</h3>';
+    html += '<table class="sum-tbl"><thead><tr><th>Direccion</th><th>Producto</th><th>Cant.</th><th>Motivo</th></tr></thead><tbody>';
+    state.traslados.forEach(function(t){
+      html += '<tr><td><b>'+escapeHtml(t.origen)+' &rarr; '+escapeHtml(t.destino)+'</b></td>'
+        + '<td>'+escapeHtml(t.producto)+'<div style="font-size:10px;color:#64748b">'+escapeHtml(t.sku)+'</div></td>'
+        + '<td style="font-weight:800">'+escapeHtml(t.cantidad)+'</td>'
+        + '<td>'+escapeHtml(t.motivo)+(t.comentarios?'<div style="font-size:10px;color:#64748b">'+escapeHtml(t.comentarios)+'</div>':'')+'</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  // Insumos dañados
+  if(state.insumosDanados.length > 0){
+    html += '<div class="summary"><h3>Insumos dañados ('+state.insumosDanados.length+')</h3>';
+    html += '<table class="sum-tbl"><thead><tr><th>Tipo</th><th>Cant.</th><th>Unidad</th><th>Comentarios</th></tr></thead><tbody>';
+    state.insumosDanados.forEach(function(it){
+      html += '<tr><td>'+escapeHtml(it.tipo)+'</td><td style="font-weight:800">'+escapeHtml(it.cantidad)+'</td><td>'+escapeHtml(it.unidad||"und")+'</td><td>'+escapeHtml(it.comentarios||"-")+'</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  // Defectuosos
+  if(state.defectuosos.length > 0){
+    html += '<div class="summary"><h3>Control de calidad - Defectos ('+state.defectuosos.length+')</h3>';
+    html += '<table class="sum-tbl"><thead><tr><th>Producto</th><th>Cant.</th><th>Motivo</th><th>Comentarios</th></tr></thead><tbody>';
+    state.defectuosos.forEach(function(d){
+      html += '<tr><td>'+escapeHtml(d.producto)+'<div style="font-size:10px;color:#64748b">'+escapeHtml(d.sku)+'</div></td>'
+        + '<td style="font-weight:800">'+escapeHtml(d.cantidad)+'</td>'
+        + '<td>'+escapeHtml(d.motivo)+'</td>'
+        + '<td>'+escapeHtml(d.comentarios||"-")+'</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  // Perdidas / Danos
+  if(state.perdidas && state.perdidas.length > 0){
+    html += '<div class="summary"><h3>Perdidas / Danos ('+state.perdidas.length+')</h3>';
+    html += '<table class="sum-tbl"><thead><tr><th>Producto</th><th>Cant.</th><th>Causa</th><th>Comentarios</th></tr></thead><tbody>';
+    state.perdidas.forEach(function(p){
+      html += '<tr><td>'+escapeHtml(p.producto)+'<div style="font-size:10px;color:#64748b">'+escapeHtml(p.sku)+'</div></td>'
+        + '<td style="font-weight:800">'+escapeHtml(p.cantidad)+'</td>'
+        + '<td>'+escapeHtml(p.motivo)+'</td>'
+        + '<td>'+escapeHtml(p.comentarios||"-")+'</td></tr>';
+    });
+    html += '</tbody></table></div>';
+  }
+  html += '<div class="send-grid">';
+  html += '<button class="btn btn-success" onclick="sendWhatsApp()">Enviar por WhatsApp</button>';
+  html += '<button class="btn btn-cloud" onclick="uploadCloud()" id="btnCloud">Subir a la nube</button>';
+  html += '<button class="btn btn-warn" onclick="downloadExcel()">Descargar Excel</button>';
+  html += '<button class="btn btn-secondary" onclick="sendEmail()">Correo</button>';
+  html += '</div>';
+  html += '<button class="btn btn-danger" style="margin-top:10px;width:100%" onclick="confirmReset()">Borrar todo y empezar de nuevo</button>';
+  box.innerHTML = html;
+}
+
+function goNext(){
+  if(state.step === 2){
+    const errs = validate();
+    if(errs.length){
+      showModal({
+        icon:"!", title:"Faltan datos",
+        body:'<div style="background:#fef2f2;border-radius:10px;padding:14px"><ul style="margin:0;padding-left:22px;color:#991b1b;font-weight:700">'+errs.map(e=>'<li>'+e+'</li>').join("")+'</ul></div><p style="margin-top:12px">Por favor completa estos datos para poder enviar.</p>',
+        btns:[{label:"Entendido", cls:"btn-primary", onClick:hideModal}]
+      });
+      return;
+    }
+    state.step = 3;
+    buildSummary();
+    showScreen("screen-review");
+    updateSteps(); updateFooter();
+  }
+}
+
+function goBack(){
+  if(state.step === 2){
+    state.step = 1; state.sede = null;
+    document.body.classList.remove("s-casona","s-fabrica","s-valledupar");
+    showScreen("screen-sede");
+    updateHeader(); updateSteps(); updateFooter();
+  } else if(state.step === 3){
+    state.step = 2;
+    showScreen("screen-form");
+    updateSteps(); updateFooter();
+  }
+}
+
+function showModal(opts){
+  $("modalIcon").textContent = opts.icon || "i";
+  $("modalTitle").textContent = opts.title || "";
+  $("modalBody").innerHTML = opts.body || "";
+  const bc = $("modalBtns"); bc.innerHTML = "";
+  (opts.btns||[{label:"Cerrar", cls:"btn-primary", onClick:hideModal}]).forEach(b=>{
+    const btn = document.createElement("button");
+    btn.className = "btn "+(b.cls||"btn-primary");
+    btn.textContent = b.label;
+    btn.onclick = b.onClick || hideModal;
+    bc.appendChild(btn);
+  });
+  $("modalBg").classList.add("show");
+}
+function hideModal(){ $("modalBg").classList.remove("show"); }
+$("modalBg").addEventListener("click", e=>{ if(e.target === $("modalBg")) hideModal(); });
+
+// Genera numero de nota de traslado: NT-YYMMDD-HHMMSS
+function genNTNumber(){
+  const d = new Date();
+  const yy = String(d.getFullYear()).slice(-2);
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  const hh = String(d.getHours()).padStart(2,'0');
+  const mi = String(d.getMinutes()).padStart(2,'0');
+  const ss = String(d.getSeconds()).padStart(2,'0');
+  return "NT-" + yy + mm + dd + "-" + hh + mi + ss;
+}
+
+// Sugerencia de lote para el dia: LYYMMDD
+function suggestLote(){
+  const d = new Date();
+  const yy = String(d.getFullYear()).slice(-2);
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return "L" + yy + mm + dd;
+}
+
+function buildTextMessage(){
+  const info = SEDE_INFO[state.sede];
+  const cols = COLUMNAS[state.sede];
+  const obs = $("observaciones").value.trim();
+  const fecha = $("f_fecha").value;
+  const operario = $("f_operario").value.trim();
+  const lote = $("f_lote").value.trim();
+  let msg = "";
+
+  // Header (sin emojis, sin vinetas)
+  msg += "REPORTE " + info.name.toUpperCase() + " \u00b7 " + fecha + "\n";
+  msg += "Empleado: " + operario + (lote ? " \u00b7 Lote: " + lote : "") + "\n";
+
+  // Abreviaturas de columnas
+  function shortLabel(lbl){
+    const m = {
+      "Recibido":"Rec",
+      "Etiquetado/Armado":"Etiq",
+      "Etiquetado":"Etiq",
+      "Despachado":"Desp",
+      "Despachado a cliente":"Desp",
+      "Producido":"Prod",
+      "Enviado a Fabrica":"Env\u2192F",
+      "Enviado":"Env"
+    };
+    return m[lbl] || lbl;
+  }
+
+  // 1) Producto etiquetado (antes 'Produccion'). Sin total (no se suman).
+  if(state.productos.length > 0){
+    msg += "\nPRODUCTO ETIQUETADO (" + state.productos.length + "):\n";
+    state.productos.forEach(function(p){
+      const partes = [];
+      cols.forEach(function(c){
+        const v = parseInt(p.cantidades[c.id]||0,10) || 0;
+        if(v > 0) partes.push(shortLabel(c.label) + " Cantidad: " + v);
+      });
+      msg += p.nombre + " [" + p.sku + "]\n";
+      if(partes.length) msg += partes.join(" \u00b7 ") + "\n";
+    });
+  }
+
+  // 2) Materia prima (Casona)
+  if(state.sede === "casona"){
+    const mpArr = getMPArray();
+    if(mpArr.length > 0){
+      let tKg = 0, tVal = 0;
+      msg += "\nMATERIA PRIMA:\n";
+      mpArr.forEach(function(x){
+        tKg += x.kg; tVal += x.subtotal;
+        msg += x.nombre + ": " + fmtKg(x.kg) + " x " + fmtMoney(x.precio) + " = " + fmtMoney(x.subtotal) + "\n";
+      });
+      msg += "Total \u00b7 " + fmtKg(tKg) + " \u00b7 " + fmtMoney(tVal) + "\n";
+    }
+  }
+
+  // 3) Traslados
+  if(state.traslados.length > 0){
+    const porDestino = {};
+    state.traslados.forEach(function(t){
+      (porDestino[t.destino] = porDestino[t.destino] || []).push(t);
+    });
+    msg += "\nTRASLADOS (" + state.traslados.length + "):\n";
+    Object.keys(porDestino).forEach(function(destKey){
+      const items = porDestino[destKey];
+      msg += "A " + destKey.toUpperCase() + ":\n";
+      items.forEach(function(t){
+        const u = t.unidad || "unds";
+        const est = t.estadoProd ? (" \u00b7 " + t.estadoProd) : "";
+        const nt = t.nt ? (" `" + t.nt + "`") : "";
+        msg += t.producto + " [" + (t.sku||"-") + "]" + nt + "\n";
+        msg += "Cantidad: " + t.cantidad + " " + u + est + "\n";
+        msg += "Motivo: " + t.motivo;
+        if(t.comentarios) msg += " \u00b7 " + t.comentarios;
+        msg += "\n";
+      });
+    });
+  }
+
+  // 4) Insumos danados
+  if(state.insumosDanados.length > 0){
+    msg += "\nINSUMOS DANADOS (" + state.insumosDanados.length + "):\n";
+    state.insumosDanados.forEach(function(it){
+      msg += it.tipo + (it.codigo ? " [" + it.codigo + "]" : "") + "\n";
+      msg += "Cantidad: " + it.cantidad + " " + (it.unidad||"und");
+      if(it.comentarios) msg += " \u00b7 " + it.comentarios;
+      msg += "\n";
+    });
+  }
+
+  // 5) Calidad / Defectos
+  if(state.defectuosos.length > 0){
+    msg += "\nCALIDAD (" + state.defectuosos.length + "):\n";
+    state.defectuosos.forEach(function(d){
+      msg += d.producto + " [" + (d.sku||"-") + "]\n";
+      msg += "Cantidad: " + d.cantidad + " unds \u00b7 " + d.motivo;
+      if(d.comentarios) msg += " \u00b7 " + d.comentarios;
+      msg += "\n";
+    });
+  }
+
+  // 6) Perdidas / Danos
+  if(state.perdidas && state.perdidas.length > 0){
+    msg += "\nPERDIDAS (" + state.perdidas.length + "):\n";
+    state.perdidas.forEach(function(p){
+      msg += p.producto + " [" + (p.sku||"-") + "]\n";
+      msg += "Cantidad: " + p.cantidad + " unds \u00b7 " + p.motivo;
+      if(p.comentarios) msg += " \u00b7 " + p.comentarios;
+      msg += "\n";
+    });
+  }
+
+  // 7) Recibos confirmados
+  if(state.recibosLocal && state.recibosLocal.length > 0){
+    msg += "\nRECIBOS (" + state.recibosLocal.length + "):\n";
+    state.recibosLocal.forEach(function(r){
+      const u = r.unidad || "unds";
+      const nt = r.nt ? (" `" + r.nt + "`") : "";
+      const ok = (r.diferencia === 0) ? " OK" : (" (diferencia " + (r.diferencia>0?"+":"") + r.diferencia + ")");
+      msg += r.producto + " [" + (r.sku||"-") + "]" + nt + "\n";
+      msg += r.origen + " -> Cantidad enviada: " + r.cantidadEnviada + " " + u + " \u00b7 Cantidad recibida: " + r.cantidadRecibida + " " + u + ok;
+      if(r.comentario) msg += " \u00b7 " + r.comentario;
+      msg += "\n";
+    });
+  }
+
+  // Observaciones
+  if(obs){
+    msg += "\nObservaciones: " + obs + "\n";
+  }
+
+  msg += "\nLa Ocanera S.A.S.";
+  return msg;
+}
+
+function sendWhatsApp(){
+  window.open("https://wa.me/?text="+encodeURIComponent(buildTextMessage()), "_blank");
+  showSuccess("WhatsApp abierto. Selecciona el grupo PRODUCCION (o el contacto) y toca ENVIAR.");
+}
+
+function sendEmail(){
+  const subj = "Reporte Diario "+SEDE_INFO[state.sede].name+" - "+$("f_fecha").value;
+  window.location.href = "mailto:"+EMAIL_TO+"?subject="+encodeURIComponent(subj)+"&body="+encodeURIComponent(buildTextMessage());
+}
+
+function fileBase(){ return "Reporte_"+state.sede.toUpperCase()+"_"+$("f_fecha").value; }
+
+function downloadExcel(){
+  const esc = s => String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const cols = COLUMNAS[state.sede];
+  const info = SEDE_INFO[state.sede];
+  const totals = {};
+  cols.forEach(c=>totals[c.id] = 0);
+  state.productos.forEach(p=>cols.forEach(c=>{ totals[c.id] += parseInt(p.cantidades[c.id]||0,10) || 0; }));
+  const ncols = 4 + cols.length;
+  let html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
+  html += '<head><meta charset="utf-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Reporte</x:Name></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>';
+  html += '<table border="1" style="border-collapse:collapse;font-family:Arial;font-size:12px">';
+  html += '<tr><th colspan="'+ncols+'" style="background:#1e3a8a;color:#fff;padding:12px;font-size:16px">CONSERVAS LA OCANERA S.A.S. - REPORTE '+esc(info.name)+'</th></tr>';
+  html += '<tr><td style="background:#f8fafc;font-weight:bold">Fecha</td><td colspan="'+(ncols-1)+'">'+esc($("f_fecha").value)+'</td></tr>';
+  html += '<tr><td style="background:#f8fafc;font-weight:bold">Operario</td><td colspan="'+(ncols-1)+'">'+esc($("f_operario").value)+'</td></tr>';
+  html += '<tr><td style="background:#f8fafc;font-weight:bold">Lote</td><td colspan="'+(ncols-1)+'">'+esc($("f_lote").value)+'</td></tr>';
+  const obs = $("observaciones").value.trim();
+  if(obs) html += '<tr><td style="background:#f8fafc;font-weight:bold">Observaciones</td><td colspan="'+(ncols-1)+'">'+esc(obs)+'</td></tr>';
+  html += '<tr><td colspan="'+ncols+'" style="height:8px"></td></tr>';
+  html += '<tr style="background:#1e3a8a;color:#fff"><th>SKU</th><th>Producto</th><th>Grupo</th><th>Unds/Caja</th>';
+  cols.forEach(c=>{ html += '<th>'+esc(c.label)+'</th>'; });
+  html += '</tr>';
+  state.productos.forEach(p=>{
+    html += '<tr><td>'+esc(p.sku)+'</td><td>'+esc(p.nombre)+'</td><td>'+esc(p.group||"")+'</td><td style="text-align:center">'+esc(p.unds||"")+'</td>';
+    cols.forEach(c=>{
+      const v = parseInt(p.cantidades[c.id]||0,10) || 0;
+      html += '<td style="text-align:right;font-weight:bold">'+(v>0?v:'')+'</td>';
+    });
+    html += '</tr>';
+  });
+  html += '<tr style="background:#f1f5f9;font-weight:bold"><td colspan="4" style="text-align:right">TOTALES</td>';
+  cols.forEach(c=>{ html += '<td style="text-align:right">'+totals[c.id]+'</td>'; });
+  html += '</tr></table>';
+  if(state.sede === "casona"){
+    const mpArr = getMPArray();
+    if(mpArr.length > 0){
+      let tKg = 0, tVal = 0;
+      html += '<br><table border="1" style="border-collapse:collapse;font-family:Arial;font-size:12px;margin-top:12px">';
+      html += '<tr><th colspan="4" style="background:#166534;color:#fff;padding:10px;font-size:14px">MATERIA PRIMA RECIBIDA</th></tr>';
+      html += '<tr style="background:#9CC74C;color:#fff"><th>Insumo</th><th>Kilos</th><th>Precio/kg</th><th>Subtotal</th></tr>';
+      mpArr.forEach(function(x){
+        tKg += x.kg; tVal += x.subtotal;
+        html += '<tr><td>'+esc(x.nombre)+'</td><td style="text-align:right">'+x.kg+'</td><td style="text-align:right">'+x.precio+'</td><td style="text-align:right;font-weight:bold">'+x.subtotal+'</td></tr>';
+      });
+      html += '<tr style="background:#EAF4EC;font-weight:bold"><td>TOTAL</td><td style="text-align:right">'+tKg+'</td><td>-</td><td style="text-align:right">'+tVal+'</td></tr>';
+      html += '</table>';
+    }
+  }
+  // Traslados
+  if(state.traslados.length > 0){
+    html += '<br><table border="1" style="border-collapse:collapse;font-family:Arial;font-size:12px;margin-top:12px">';
+    html += '<tr><th colspan="5" style="background:#375090;color:#fff;padding:10px;font-size:14px">TRASLADOS ENTRE BODEGAS</th></tr>';
+    html += '<tr style="background:#e0e7ff"><th>Origen</th><th>Destino</th><th>Producto</th><th>Cantidad</th><th>Motivo / Nota</th></tr>';
+    state.traslados.forEach(function(t){
+      html += '<tr><td>'+esc(t.origen)+'</td><td>'+esc(t.destino)+'</td><td>'+esc(t.producto)+' ('+esc(t.sku)+')</td><td style="text-align:right;font-weight:bold">'+esc(t.cantidad)+'</td><td>'+esc(t.motivo)+(t.comentarios?' - '+esc(t.comentarios):'')+'</td></tr>';
+    });
+    html += '</table>';
+  }
+  // Insumos dañados
+  if(state.insumosDanados.length > 0){
+    html += '<br><table border="1" style="border-collapse:collapse;font-family:Arial;font-size:12px;margin-top:12px">';
+    html += '<tr><th colspan="4" style="background:#F7C93C;color:#373435;padding:10px;font-size:14px">INSUMOS DAÑADOS</th></tr>';
+    html += '<tr style="background:#fef9c3"><th>Tipo</th><th>Cantidad</th><th>Unidad</th><th>Comentarios</th></tr>';
+    state.insumosDanados.forEach(function(it){
+      html += '<tr><td>'+esc(it.tipo)+'</td><td style="text-align:right;font-weight:bold">'+esc(it.cantidad)+'</td><td>'+esc(it.unidad||"und")+'</td><td>'+esc(it.comentarios||"")+'</td></tr>';
+    });
+    html += '</table>';
+  }
+  // Defectuosos
+  if(state.defectuosos.length > 0){
+    html += '<br><table border="1" style="border-collapse:collapse;font-family:Arial;font-size:12px;margin-top:12px">';
+    html += '<tr><th colspan="4" style="background:#BC3440;color:#fff;padding:10px;font-size:14px">CONTROL DE CALIDAD - DEFECTOS</th></tr>';
+    html += '<tr style="background:#fee2e2"><th>Producto</th><th>Cantidad</th><th>Motivo</th><th>Comentarios</th></tr>';
+    state.defectuosos.forEach(function(d){
+      html += '<tr><td>'+esc(d.producto)+' ('+esc(d.sku)+')</td><td style="text-align:right;font-weight:bold">'+esc(d.cantidad)+'</td><td>'+esc(d.motivo)+'</td><td>'+esc(d.comentarios||"")+'</td></tr>';
+    });
+    html += '</table>';
+  }
+  // Perdidas / Danos
+  if(state.perdidas && state.perdidas.length > 0){
+    html += '<br><table border="1" style="border-collapse:collapse;font-family:Arial;font-size:12px;margin-top:12px">';
+    html += '<tr><th colspan="4" style="background:#E0712E;color:#fff;padding:10px;font-size:14px">PERDIDAS / DANOS</th></tr>';
+    html += '<tr style="background:#fed7aa"><th>Producto</th><th>Cantidad</th><th>Causa</th><th>Comentarios</th></tr>';
+    state.perdidas.forEach(function(p){
+      html += '<tr><td>'+esc(p.producto)+' ('+esc(p.sku)+')</td><td style="text-align:right;font-weight:bold">'+esc(p.cantidad)+'</td><td>'+esc(p.motivo)+'</td><td>'+esc(p.comentarios||"")+'</td></tr>';
+    });
+    html += '</table>';
+  }
+  html += '</body></html>';
+  const blob = new Blob([html], {type:"application/vnd.ms-excel"});
+  triggerDownload(blob, fileBase()+".xls");
+  showSuccess("Excel descargado.");
+}
+
+function triggerDownload(blob, name){
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+function buildCloudPayload(){
+  const cols = COLUMNAS[state.sede];
+  const productos = state.productos.map(p=>{
+    const row = {sku:p.sku, nombre:p.nombre, grupo:p.group||"", unds:p.unds||""};
+    cols.forEach(c=>{ row[c.id] = parseInt(p.cantidades[c.id]||0,10) || 0; });
+    return row;
+  });
+  return {
+    bodega: SEDE_INFO[state.sede].name,
+    fecha: $("f_fecha").value,
+    operario: $("f_operario").value.trim(),
+    lote: $("f_lote").value.trim(),
+    observaciones: $("observaciones").value.trim(),
+    columnas: cols.map(c=>c.id),
+    productos: productos,
+    materiaPrima: (state.sede === "casona") ? getMPArray() : [],
+    traslados: state.traslados.slice(),
+    insumosDanados: state.insumosDanados.slice(),
+    defectuosos: state.defectuosos.slice(),
+    perdidas: (state.perdidas||[]).slice(),
+    ts: new Date().toISOString()
+  };
+}
+
+async function uploadCloud(){
+  if(!CLOUD_URL){
+    showModal({
+      icon:"!", title:"Falta configurar la nube",
+      body:'<p>El dueño todavia no ha configurado la conexion con Google Sheets.</p><p style="margin-top:10px">Ver el archivo <b>INSTALAR_APP.md</b>.</p><p style="margin-top:10px">Mientras tanto puede usar <b>WhatsApp</b> o <b>descargar Excel</b>.</p>',
+      btns:[{label:"Entendido", cls:"btn-primary", onClick:hideModal}]
+    });
+    return;
+  }
+  const btn = $("btnCloud");
+  if(btn){ btn.disabled = true; btn.textContent = "Subiendo..."; }
+  try {
+    await fetch(CLOUD_URL, {
+      method:"POST", mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify(buildCloudPayload())
+    });
+    if(btn){ btn.disabled = false; btn.textContent = "Subir a la nube"; }
+    showSuccess("Reporte subido a Google Sheets. El dueño ya lo puede ver.");
+  } catch(e){
+    if(btn){ btn.disabled = false; btn.textContent = "Subir a la nube"; }
+    showModal({
+      icon:"!", title:"No se pudo subir",
+      body:'<p>No hay internet o hubo un error.</p><p style="margin-top:10px">Error: '+(e.message||e)+'</p><p style="margin-top:10px">Puede enviar por <b>WhatsApp</b> mientras tanto.</p>',
+      btns:[{label:"Cerrar", cls:"btn-secondary", onClick:hideModal}]
+    });
+  }
+}
+
+function showSuccess(msg){
+  showModal({icon:"OK", title:"Listo!", body:msg, btns:[{label:"Cerrar", cls:"btn-success", onClick:hideModal}]});
+}
+
+function confirmReset(){
+  showModal({
+    icon:"!", title:"Borrar todo?",
+    body:"Se perdera toda la informacion. Esta accion no se puede deshacer.",
+    btns:[
+      {label:"No, cancelar", cls:"btn-secondary", onClick:hideModal},
+      {label:"Si, borrar", cls:"btn-danger", onClick:function(){ resetAll(); hideModal(); }}
+    ]
+  });
+}
+
+function resetAll(){
+  state.sede = null; state.step = 1; state.productos = [];
+  initMateriaPrima();
+  initExtras();
+  document.body.classList.remove("s-casona","s-fabrica","s-valledupar");
+  $("f_operario").value = "";
+  $("f_fecha").value = "";
+  $("f_lote").value = "";
+  $("observaciones").value = "";
+  $("searchInput").value = "";
+  $("mpSection").style.display = "none";
+  renderTraslados();
+  renderInsumos();
+  renderDefectuosos();
+  renderPerdidas();
+  showScreen("screen-sede");
+  updateHeader(); updateSteps(); updateFooter();
+}
+
+// ============================================================
+// TRASLADOS / INSUMOS DAÑADOS / DEFECTUOSOS
+// ============================================================
+
+function escapeHtml(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function renderTraslados(){
+  const list = $("trasladosList");
+  if(!list) return;
+  if(state.traslados.length === 0){ list.innerHTML = '<div class="chip-empty">Sin traslados por el momento.</div>'; return; }
+  let html = "";
+  state.traslados.forEach(function(t,i){
+    const unidad = t.unidad || "unds";
+    const estadoProd = t.estadoProd || "-";
+    const nt = t.nt ? '<span class="chip-nt">'+escapeHtml(t.nt)+'</span>' : "";
+    const lote = t.lote ? ' &middot; Lote: <b>'+escapeHtml(t.lote)+'</b>' : "";
+    html += '<div class="item-chip traslado">'
+      + '<div class="chip-body">'
+      +   '<div class="chip-title">'+escapeHtml(t.producto||"(sin producto)")+' <span class="chip-cant">x '+escapeHtml(t.cantidad)+' '+escapeHtml(unidad)+'</span></div>'
+      +   '<div class="chip-sub"><b>'+escapeHtml(t.origen)+' &rarr; '+escapeHtml(t.destino)+'</b> &middot; '+escapeHtml(estadoProd)+lote+'</div>'
+      +   '<div class="chip-sub" style="font-size:11px;color:#64748b">'+nt+' &middot; Motivo: '+escapeHtml(t.motivo)+'</div>'
+      +   (t.comentarios?'<div class="chip-tag">&ldquo;'+escapeHtml(t.comentarios)+'&rdquo;</div>':'')
+      + '</div>'
+      + '<button class="chip-del" onclick="delTraslado('+i+')" aria-label="Eliminar">&times;</button>'
+      + '</div>';
+  });
+  list.innerHTML = html;
+}
+function delTraslado(i){ state.traslados.splice(i,1); renderTraslados(); }
+
+function renderInsumos(){
+  const list = $("insumosList");
+  if(!list) return;
+  if(state.insumosDanados.length === 0){ list.innerHTML = '<div class="chip-empty">Sin insumos dañados por el momento.</div>'; return; }
+  let html = "";
+  state.insumosDanados.forEach(function(it,i){
+    html += '<div class="item-chip insumo">'
+      + '<div class="chip-body">'
+      +   '<div class="chip-title">'+escapeHtml(it.tipo)+' <span class="chip-cant">x '+escapeHtml(it.cantidad)+' '+escapeHtml(it.unidad||"und")+'</span></div>'
+      +   (it.comentarios?'<div class="chip-sub">'+escapeHtml(it.comentarios)+'</div>':'')
+      + '</div>'
+      + '<button class="chip-del" onclick="delInsumo('+i+')" aria-label="Eliminar">&times;</button>'
+      + '</div>';
+  });
+  list.innerHTML = html;
+}
+function delInsumo(i){ state.insumosDanados.splice(i,1); renderInsumos(); }
+
+function renderDefectuosos(){
+  const list = $("defectuososList");
+  if(!list) return;
+  if(state.defectuosos.length === 0){ list.innerHTML = '<div class="chip-empty">Sin defectos registrados por el momento.</div>'; return; }
+  let html = "";
+  state.defectuosos.forEach(function(d,i){
+    html += '<div class="item-chip calidad">'
+      + '<div class="chip-body">'
+      +   '<div class="chip-title">'+escapeHtml(d.producto||"(producto)")+' <span class="chip-cant">x '+escapeHtml(d.cantidad)+'</span></div>'
+      +   '<div class="chip-sub">Motivo: <b>'+escapeHtml(d.motivo)+'</b></div>'
+      +   (d.comentarios?'<div class="chip-tag">&ldquo;'+escapeHtml(d.comentarios)+'&rdquo;</div>':'')
+      + '</div>'
+      + '<button class="chip-del" onclick="delDefecto('+i+')" aria-label="Eliminar">&times;</button>'
+      + '</div>';
+  });
+  list.innerHTML = html;
+}
+function delDefecto(i){ state.defectuosos.splice(i,1); renderDefectuosos(); }
+
+function renderPerdidas(){
+  const list = $("perdidasList");
+  if(!list) return;
+  if(!state.perdidas || state.perdidas.length === 0){ list.innerHTML = '<div class="chip-empty">Sin perdidas o danos por el momento.</div>'; return; }
+  let html = "";
+  state.perdidas.forEach(function(p,i){
+    html += '<div class="item-chip perdida">'
+      + '<div class="chip-body">'
+      +   '<div class="chip-title">'+escapeHtml(p.producto||"(producto)")+' <span class="chip-cant">x '+escapeHtml(p.cantidad)+'</span></div>'
+      +   '<div class="chip-sub">Causa: <b>'+escapeHtml(p.motivo)+'</b></div>'
+      +   (p.comentarios?'<div class="chip-tag">&ldquo;'+escapeHtml(p.comentarios)+'&rdquo;</div>':'')
+      + '</div>'
+      + '<button class="chip-del" onclick="delPerdida('+i+')" aria-label="Eliminar">&times;</button>'
+      + '</div>';
+  });
+  list.innerHTML = html;
+}
+function delPerdida(i){ state.perdidas.splice(i,1); renderPerdidas(); }
+
+// ============== TRASLADOS PENDIENTES ==============
+async function refreshPendientes(){
+  const sec = $("pendientesSection");
+  const list = $("pendientesList");
+  if(!sec || !list) return;
+  if(!CLOUD_URL){
+    sec.style.display = "none";
+    return;
+  }
+  sec.style.display = "";
+  list.innerHTML = '<div class="chip-empty">Cargando traslados pendientes...</div>';
+  try {
+    const url = CLOUD_URL + (CLOUD_URL.indexOf("?")>=0?"&":"?") + "action=pendientes&destino=" + encodeURIComponent(state.sede);
+    const res = await fetch(url, {method:"GET"});
+    const data = await res.json();
+    if(!data.ok){ list.innerHTML = '<div class="chip-empty">No se pudo cargar ('+escapeHtml(data.error||"error")+')</div>'; return; }
+    // Filtrar los que ya recibimos localmente en esta sesion
+    const recibidosIds = (state.recibosLocal||[]).map(function(r){ return r.id; });
+    state.pendientes = (data.pendientes||[]).filter(function(p){ return recibidosIds.indexOf(p.id) < 0; });
+    renderPendientes();
+  } catch(err){
+    list.innerHTML = '<div class="chip-empty">Error: '+escapeHtml(err.message||err)+'. Revisa internet.</div>';
+  }
+}
+
+function renderPendientes(){
+  const list = $("pendientesList");
+  const badge = $("pendCountBadge");
+  if(!list) return;
+  const n = (state.pendientes||[]).length;
+  if(badge){ badge.textContent = String(n); badge.className = "pend-badge" + (n===0?" zero":""); }
+  if(n === 0){ list.innerHTML = '<div class="chip-empty">No hay traslados pendientes para esta bodega. <span style="color:#15803D;font-weight:700">Todo al dia!</span></div>'; return; }
+  let html = "";
+  state.pendientes.forEach(function(p,i){
+    const unid = p.unidad || "unds";
+    const nt = p.nt ? '<span class="chip-nt">'+escapeHtml(p.nt)+'</span>' : "";
+    const estLine = (p.estadoProd || p.loteTraslado)
+      ? '<div class="pend-meta" style="background:#fff8e1">' +
+         (p.estadoProd ? '<span>Estado: <b>'+escapeHtml(p.estadoProd)+'</b></span>' : '') +
+         (p.loteTraslado ? '<span>Lote: <b>'+escapeHtml(p.loteTraslado)+'</b></span>' : '') +
+         '</div>'
+      : "";
+    html += '<div class="pend-card">'
+      + '<div class="pend-top">'
+      +   '<div><div class="pend-prod">'+escapeHtml(p.producto||"(producto)")+'</div>'
+      +   '<div class="pend-sku">'+nt+' SKU: '+escapeHtml(p.sku||"-")+'</div></div>'
+      +   '<div class="pend-cant">'+escapeHtml(p.cantidad||0)+' <span style="font-size:12px;font-weight:600;color:#64748b">'+escapeHtml(unid)+'</span></div>'
+      + '</div>'
+      + '<div class="pend-meta">'
+      +   '<span>Desde: <b>'+escapeHtml(p.origen||"?")+'</b></span>'
+      +   '<span>Operario: <b>'+escapeHtml(p.operarioOrigen||"?")+'</b></span>'
+      +   '<span>Motivo: <b>'+escapeHtml(p.motivo||"-")+'</b></span>'
+      + '</div>'
+      + estLine
+      + (p.comentarios ? '<div class="pend-note">&ldquo;'+escapeHtml(p.comentarios)+'&rdquo;</div>' : '')
+      + '<button class="btn-recibir" onclick="openRecibirModal('+i+')">&#9989; Contar y confirmar recibo</button>'
+      + '</div>';
+  });
+  list.innerHTML = html;
+}
+
+function openRecibirModal(idx){
+  const p = state.pendientes[idx];
+  if(!p) return;
+  const unid = p.unidad || "unds";
+  const ntBadge = p.nt ? '<span class="chip-nt" style="margin-right:6px">'+escapeHtml(p.nt)+'</span>' : "";
+  const estLine = (p.estadoProd || p.loteTraslado)
+    ? '<div class="fm-pill" style="background:#fff8e1;border-left:3px solid #F7C93C;font-size:13px">' +
+       (p.estadoProd ? 'Estado: <b>'+escapeHtml(p.estadoProd)+'</b>' : '') +
+       (p.estadoProd && p.loteTraslado ? ' &middot; ' : '') +
+       (p.loteTraslado ? 'Lote: <b>'+escapeHtml(p.loteTraslado)+'</b>' : '') +
+       '</div>'
+    : "";
+  const body = ''
+    + '<div class="fm-row">'
+    +   '<div class="fm-pill" style="font-size:14px;line-height:1.4">'
+    +     ntBadge + '<b>'+escapeHtml(p.producto)+'</b><br>'
+    +     'SKU: '+escapeHtml(p.sku||"-")+' &middot; Desde: <b>'+escapeHtml(p.origen)+'</b>'
+    +   '</div>'
+    + '</div>'
+    + (estLine ? '<div class="fm-row">'+estLine+'</div>' : '')
+    + '<div class="fm-grid-2">'
+    +   '<div class="fm-row"><label>Cantidad enviada ('+escapeHtml(unid)+')</label><div class="fm-pill" style="font-weight:800;font-size:18px;text-align:center;color:#BC3440">'+escapeHtml(p.cantidad||0)+'</div></div>'
+    +   '<div class="fm-row"><label for="rx_cant">Cantidad recibida contada ('+escapeHtml(unid)+')</label><input id="rx_cant" class="fm-input" type="number" min="0" step="1" inputmode="numeric" value="'+escapeHtml(p.cantidad||0)+'"></div>'
+    + '</div>'
+    + '<div class="fm-row" id="rx_diffRow" style="display:none"><div class="fm-pill diff-warn" id="rx_diffPill"></div></div>'
+    + '<div class="fm-row"><label for="rx_coment">Comentario (si hay diferencia, describe el motivo)</label>'
+    +   '<textarea id="rx_coment" class="fm-input" rows="2" placeholder="Ej: faltaron 2 cajas, producto golpeado, todo conforme..."></textarea>'
+    + '</div>';
+  openFormodal({
+    title: "Confirmar recibo",
+    sub: "Cuenta y aprueba el producto recibido",
+    theme: "traslado",
+    bodyHtml: body,
+    onRender: function(){
+      const cantEnv = parseFloat(p.cantidad||0);
+      const inp = document.getElementById("rx_cant");
+      const pill = document.getElementById("rx_diffPill");
+      const row = document.getElementById("rx_diffRow");
+      if(!inp || !pill || !row) return;
+      const update = function(){
+        const rec = parseFloat(inp.value||"0") || 0;
+        const dif = rec - cantEnv;
+        if(dif === 0){
+          row.style.display = ""; pill.textContent = "Cantidad exacta - Todo conforme"; pill.className = "fm-pill diff-ok";
+        } else if(dif > 0){
+          row.style.display = ""; pill.textContent = "Recibiste "+dif+" mas de lo enviado"; pill.className = "fm-pill diff-warn";
+        } else {
+          row.style.display = ""; pill.textContent = "Faltan "+Math.abs(dif)+" unidades del envio"; pill.className = "fm-pill diff-err";
+        }
+      };
+      inp.addEventListener("input", update); update();
+    },
+    onSave: async function(){
+      const cantRec = parseInt($("rx_cant").value||"-1",10);
+      const coment = $("rx_coment").value.trim();
+      const op = ($("f_operario").value||"").trim();
+      if(isNaN(cantRec) || cantRec < 0){ alert("Cantidad recibida invalida."); return false; }
+      if(!op){ alert("Primero escribe tu nombre (Operario) en el paso 1."); return false; }
+      const payload = { action:"recibir", id:p.id, cantidadRecibida:cantRec, operario:op, comentario:coment };
+      try {
+        await fetch(CLOUD_URL, {
+          method:"POST", mode:"no-cors",
+          headers:{"Content-Type":"text/plain;charset=utf-8"},
+          body: JSON.stringify(payload)
+        });
+        // Marcar localmente como recibido para no volver a mostrar
+        state.recibosLocal.push({ id:p.id, nt:p.nt||"", sku:p.sku||"", producto:p.producto, unidad:p.unidad||"unds", estadoProd:p.estadoProd||"", cantidadEnviada:p.cantidad, cantidadRecibida:cantRec, diferencia:cantRec-(p.cantidad||0), origen:p.origen, comentario:coment });
+        state.pendientes.splice(state.pendientes.indexOf(p), 1);
+        renderPendientes();
+        showSuccess("Recibo confirmado. " + (cantRec === (p.cantidad||0) ? "Cantidad exacta." : "Con diferencia de "+(cantRec-(p.cantidad||0))+" (quedo registrada)."));
+      } catch(err){
+        alert("No se pudo enviar el recibo: "+(err.message||err));
+        return false;
+      }
+    }
+  });
+}
+
+function openPerdidaModal(){
+  const prodPickerHtml = buildProductPicker("pd_prod","pd_prod_q","Buscar producto...");
+  const motOpts = ['<option value="">-- Elegir causa --</option>']
+    .concat(MOTIVOS_PERDIDA.map(function(r){ return '<option value="'+escapeHtml(r)+'">'+escapeHtml(r)+'</option>'; }))
+    .join("");
+  const body = ''
+    + '<div class="fm-row"><label for="pd_prod_q">Producto</label>'
+    +   prodPickerHtml
+    + '</div>'
+    + '<div class="fm-grid-2">'
+    +   '<div class="fm-row"><label for="pd_cant">Cantidad</label><input id="pd_cant" class="fm-input" type="number" min="1" step="1" inputmode="numeric" value="1"></div>'
+    +   '<div class="fm-row"><label for="pd_mot">Causa</label><select id="pd_mot" class="fm-input">'+motOpts+'</select></div>'
+    + '</div>'
+    + '<div class="fm-row"><label for="pd_coment">Comentarios (opcional)</label>'
+    +   '<textarea id="pd_coment" class="fm-input" rows="2" placeholder="Detalles del incidente, responsable, turno..."></textarea>'
+    + '</div>';
+  openFormodal({
+    title: "Perdida o dano",
+    sub: "Robo, producto partido o golpeado",
+    theme: "perdida",
+    bodyHtml: body,
+    onRender: function(){ wireProductFilter("pd_prod","pd_prod_q"); },
+    onSave: function(){
+      const prodSel = $("pd_prod");
+      const sku = prodSel.value;
+      const nombre = sku ? (prodSel.options[prodSel.selectedIndex].textContent || "").replace(/\s*\([^)]*\)\s*$/,'') : "";
+      const cant = parseInt($("pd_cant").value||"0",10) || 0;
+      const motivo = $("pd_mot").value;
+      const coment = $("pd_coment").value.trim();
+      if(!sku){ alert("Selecciona un producto."); return false; }
+      if(cant <= 0){ alert("La cantidad debe ser mayor a 0."); return false; }
+      if(!motivo){ alert("Selecciona una causa."); return false; }
+      state.perdidas.push({ sku:sku, producto:nombre, cantidad:cant, motivo:motivo, comentarios:coment });
+      renderPerdidas();
+    }
+  });
+}
+
+// ============== FORM MODAL (generico) ==============
+let __formodalCtx = null;
+
+function openFormodal(opts){
+  __formodalCtx = opts;
+  $("formodalTitle").textContent = opts.title || "Formulario";
+  $("formodalSub").textContent = opts.sub || "";
+  const box = $("formodalBox");
+  box.classList.remove("traslado-bg","insumo-bg","calidad-bg");
+  if(opts.theme) box.classList.add(opts.theme+"-bg");
+  $("formodalBody").innerHTML = opts.bodyHtml || "";
+  $("formodalBg").classList.add("show");
+  document.body.style.overflow = "hidden";
+  if(typeof opts.onOpen === "function") opts.onOpen();
+  if(typeof opts.onRender === "function") setTimeout(opts.onRender, 0);
+}
+function closeFormodal(){
+  $("formodalBg").classList.remove("show");
+  document.body.style.overflow = "";
+  __formodalCtx = null;
+}
+function saveFormodal(){
+  if(!__formodalCtx) return;
+  if(typeof __formodalCtx.onSave === "function"){
+    const ok = __formodalCtx.onSave();
+    if(ok === false) return;
+  }
+  closeFormodal();
+}
+document.addEventListener("click", function(e){
+  if(e.target === $("formodalBg")) closeFormodal();
+});
+
+// ============== TRASLADO MODAL ==============
+function openTrasladoModal(){
+  if(!state.sede){ return; }
+  const origenKey = state.sede;
+  const origen = NOMBRES_SEDE[origenKey] || String(origenKey).toUpperCase();
+  // destinos disponibles desde esta bodega
+  const destinosMap = RAZONES_TRASLADO[origenKey] || {};
+  const destinoKeys = Object.keys(destinosMap);
+  if(destinoKeys.length === 0){ alert("No hay rutas de traslado configuradas para "+origen); return; }
+  // destino inicial = primero disponible
+  let destinoKey = destinoKeys[0];
+  let destino = NOMBRES_SEDE[destinoKey] || String(destinoKey).toUpperCase();
+  let razones = destinosMap[destinoKey];
+  const prodPickerHtml = buildProductPicker("tr_prod","tr_prod_q","Buscar producto...");
+  const motivoUnico = (razones.length === 1);
+  const razonOpts = (motivoUnico
+    ? [] // no placeholder cuando es unico
+    : ['<option value="">-- Elegir motivo --</option>']
+  ).concat(razones.map(function(r){
+    return '<option value="'+escapeHtml(r)+'"'+(motivoUnico?' selected':'')+'>'+escapeHtml(r)+'</option>';
+  })).join("");
+  const motivoBlock = motivoUnico
+    ? '<div class="fm-row"><label>Motivo</label><div class="fm-pill motivo-fixed">'+escapeHtml(razones[0])+'</div><input type="hidden" id="tr_motivo" value="'+escapeHtml(razones[0])+'"></div>'
+    : '<div class="fm-row"><label for="tr_motivo">Motivo</label><select id="tr_motivo" class="fm-input">'+razonOpts+'</select></div>';
+  // Bloque de direccion: selector si hay mas de un destino
+  let direccionBlock;
+  if(destinoKeys.length > 1){
+    const destOpts = destinoKeys.map(function(k){
+      const nm = NOMBRES_SEDE[k] || String(k).toUpperCase();
+      return '<option value="'+escapeHtml(k)+'">'+escapeHtml(nm)+'</option>';
+    }).join("");
+    direccionBlock = '<div class="fm-row"><label for="tr_destino">Enviar a bodega</label>'
+      + '<select id="tr_destino" class="fm-input">'+destOpts+'</select>'
+      + '<div class="fm-pill" id="tr_dirPill" style="margin-top:6px">'+origen+' &rarr; '+destino+'</div>'
+      + '</div>';
+  } else {
+    direccionBlock = '<div class="fm-row"><label>Direccion</label>'
+      + '<div class="fm-pill">'+origen+' &rarr; '+destino+'</div>'
+      + '</div>';
+  }
+  const ntAuto = genNTNumber();
+  const body = ''
+    + '<div class="fm-row"><label>Numero de nota</label><div class="fm-pill" id="tr_ntPill" style="font-weight:800;letter-spacing:.5px;background:#F7C93C;color:#373435;">' + escapeHtml(ntAuto) + '</div><input type="hidden" id="tr_nt" value="' + escapeHtml(ntAuto) + '"></div>'
+    + direccionBlock
+    + '<div class="fm-row"><label for="tr_prod_q">Producto</label>'
+    +   prodPickerHtml
+    + '</div>'
+    + '<div class="fm-grid-2">'
+    +   '<div class="fm-row"><label for="tr_cant">Cantidad</label><input id="tr_cant" class="fm-input" type="number" min="1" step="1" inputmode="numeric" value="1"></div>'
+    +   '<div class="fm-row"><label for="tr_unidad">Unidad</label>'
+    +     '<select id="tr_unidad" class="fm-input">'
+    +       '<option value="unds" selected>unds</option>'
+    +       '<option value="cajas">cajas</option>'
+    +       '<option value="paquetes">paquetes</option>'
+    +       '<option value="estibas">estibas</option>'
+    +     '</select>'
+    +   '</div>'
+    + '</div>'
+    + '<div class="fm-row"><label for="tr_estado">Estado del producto</label>'
+    +   '<select id="tr_estado" class="fm-input">'
+    +     '<option value="Envasado">Envasado (sin tapa)</option>'
+    +     '<option value="Sellado" selected>Sellado</option>'
+    +     '<option value="Etiquetado">Etiquetado</option>'
+    +     '<option value="Empacado">Empacado en caja</option>'
+    +   '</select>'
+    + '</div>'
+    + motivoBlock
+    + '<div class="fm-row"><label for="tr_coment">Comentarios (opcional)</label>'
+    +   '<textarea id="tr_coment" class="fm-input" rows="2" placeholder="Detalles, numero de guia externa, conductor..."></textarea>'
+    + '</div>';
+  openFormodal({
+    title: "Nuevo traslado",
+    sub: origen+" hacia "+destino,
+    theme: "traslado",
+    bodyHtml: body,
+    onRender: function(){
+      wireProductFilter("tr_prod","tr_prod_q");
+      const selDest = document.getElementById("tr_destino");
+      if(!selDest) return;
+      selDest.addEventListener("change", function(){
+        destinoKey = selDest.value;
+        destino = NOMBRES_SEDE[destinoKey] || String(destinoKey).toUpperCase();
+        razones = RAZONES_TRASLADO[origenKey][destinoKey] || [];
+        const pill = document.getElementById("tr_dirPill");
+        if(pill) pill.innerHTML = origen+" &rarr; "+destino;
+        const motSel = document.getElementById("tr_motivo");
+        if(motSel){
+          // Reconstruir opciones
+          let html = (razones.length === 1) ? "" : '<option value="">-- Elegir motivo --</option>';
+          razones.forEach(function(r){ html += '<option value="'+escapeHtml(r)+'"'+(razones.length===1?" selected":"")+'>'+escapeHtml(r)+'</option>'; });
+          motSel.innerHTML = html;
+        }
+      });
+    },
+    onSave: function(){
+      const prodSel = $("tr_prod");
+      const sku = prodSel.value;
+      const nombre = sku ? (prodSel.options[prodSel.selectedIndex].textContent || "").replace(/\s*\([^)]*\)\s*$/,'') : "";
+      const cant = parseInt($("tr_cant").value||"0",10) || 0;
+      const motivo = $("tr_motivo").value;
+      const coment = $("tr_coment").value.trim();
+      if(!sku){ alert("Selecciona un producto."); return false; }
+      if(cant <= 0){ alert("La cantidad debe ser mayor a 0."); return false; }
+      if(!motivo){ alert("Selecciona un motivo."); return false; }
+      // releer destino en el momento de guardar (si cambio)
+      const selDest2 = document.getElementById("tr_destino");
+      if(selDest2 && selDest2.value){
+        destinoKey = selDest2.value;
+        destino = NOMBRES_SEDE[destinoKey] || String(destinoKey).toUpperCase();
+      }
+      const unidad = ($("tr_unidad").value||"unds");
+      const estadoProd = ($("tr_estado").value||"Sellado");
+      const ntNum = ($("tr_nt").value||"");
+      state.traslados.push({
+        id: "tr_"+Date.now()+"_"+Math.random().toString(36).substr(2,6),
+        nt: ntNum,
+        origen: origen, destino: destino,
+        sku: sku, producto: nombre,
+        cantidad: cant, unidad: unidad,
+        estadoProd: estadoProd,
+        motivo: motivo,
+        comentarios: coment
+      });
+      renderTraslados();
+    }
+  });
+}
+
+// ============== INSUMO DAÑADO MODAL ==============
+function openInsumoModal(){
+  let tipoOpts = '<option value="">-- Toca para elegir insumo --</option>';
+  INSUMOS_CATALOG.forEach(function(g){
+    tipoOpts += '<optgroup label="'+escapeHtml(g.grupo)+'">';
+    g.items.forEach(function(it){
+      tipoOpts += '<option value="'+escapeHtml(it.nombre)+'" data-codigo="'+escapeHtml(it.codigo)+'">'+escapeHtml(it.nombre)+'</option>';
+    });
+    tipoOpts += '</optgroup>';
+  });
+  tipoOpts += '<option value="__OTROS__">Otros (especificar)</option>';
+  const body = ''
+    + '<div class="fm-row"><label for="in_tipo_q">Insumo</label>'
+    +   '<input type="search" id="in_tipo_q" class="fm-input" placeholder="Buscar (escribe para filtrar)..." autocomplete="off" style="margin-bottom:6px">'
+    +   '<select id="in_tipo" class="fm-input fm-select-big">'+tipoOpts+'</select>'
+    +   '<div class="fm-help-tiny">Toca el selector y elige tu insumo de la lista agrupada. O escribe arriba para filtrar.</div>'
+    + '</div>'
+    + '<div class="fm-row" id="in_otro_row" style="display:none"><label for="in_otro">Especifica el insumo</label>'
+    +   '<input id="in_otro" class="fm-input" type="text" placeholder="Nombre del insumo">'
+    + '</div>'
+    + '<div class="fm-grid-2">'
+    +   '<div class="fm-row"><label for="in_cant">Cantidad</label><input id="in_cant" class="fm-input" type="number" min="1" step="1" inputmode="numeric" value="1"></div>'
+    +   '<div class="fm-row"><label for="in_unid">Unidad</label>'
+    +     '<select id="in_unid" class="fm-input">'
+    +       '<option value="und">und</option>'
+    +       '<option value="cajas">cajas</option>'
+    +       '<option value="paquetes">paquetes</option>'
+    +       '<option value="kg">kg</option>'
+    +       '<option value="litros">litros</option>'
+    +     '</select>'
+    +   '</div>'
+    + '</div>'
+    + '<div class="fm-row"><label for="in_coment">Comentarios (opcional)</label>'
+    +   '<textarea id="in_coment" class="fm-input" rows="2" placeholder="Causa, lote, observaciones..."></textarea>'
+    + '</div>';
+  openFormodal({
+    title: "Reportar insumo dañado",
+    sub: SEDE_INFO[state.sede].name,
+    theme: "insumo",
+    bodyHtml: body,
+    onSave: function(){
+      let tipo = $("in_tipo").value;
+      const sel = $("in_tipo");
+      const opt = sel.options[sel.selectedIndex];
+      let codigo = (opt && opt.dataset) ? (opt.dataset.codigo||"") : "";
+      if(tipo === "__OTROS__"){
+        tipo = ($("in_otro").value||"").trim();
+        codigo = "";
+        if(!tipo){ alert("Escribe el nombre del insumo."); return false; }
+      }
+      const cant = parseInt($("in_cant").value||"0",10) || 0;
+      const unid = $("in_unid").value;
+      const coment = $("in_coment").value.trim();
+      if(!tipo){ alert("Selecciona el insumo."); return false; }
+      if(cant <= 0){ alert("La cantidad debe ser mayor a 0."); return false; }
+      state.insumosDanados.push({ tipo:tipo, codigo:codigo, cantidad:cant, unidad:unid, comentarios:coment });
+      renderInsumos();
+    },
+    onRender: function(){
+      const sel = document.getElementById("in_tipo");
+      const row = document.getElementById("in_otro_row");
+      const inp = document.getElementById("in_tipo_q");
+      if(sel && row){
+        sel.addEventListener("change", function(){
+          row.style.display = (sel.value === "__OTROS__") ? "" : "none";
+        });
+      }
+      // Filtro de busqueda sobre el select de insumos
+      if(sel && inp){
+        if(!sel.__origHtml) sel.__origHtml = sel.innerHTML;
+        inp.addEventListener("input", function(){
+          const q = (inp.value||"").trim().toLowerCase();
+          const prevValue = sel.value;
+          if(!q){ sel.innerHTML = sel.__origHtml; if(prevValue) sel.value = prevValue; return; }
+          let html = '<option value="">-- Resultados: "'+escapeHtml(q)+'" --</option>';
+          let total = 0;
+          INSUMOS_CATALOG.forEach(function(g){
+            const matches = g.items.filter(function(it){ return (it.nombre+" "+(it.codigo||"")).toLowerCase().indexOf(q) >= 0; });
+            if(matches.length === 0) return;
+            total += matches.length;
+            html += '<optgroup label="'+escapeHtml(g.grupo)+'">';
+            matches.forEach(function(it){
+              html += '<option value="'+escapeHtml(it.nombre)+'" data-codigo="'+escapeHtml(it.codigo||"")+'">'+escapeHtml(it.nombre)+'</option>';
+            });
+            html += '</optgroup>';
+          });
+          html += '<option value="__OTROS__">Otros (especificar)</option>';
+          if(total === 0){ html = '<option value="">Sin resultados para "'+escapeHtml(q)+'"</option><option value="__OTROS__">Otros (especificar)</option>'; }
+          sel.innerHTML = html;
+          if(prevValue){ for(let i=0;i<sel.options.length;i++){ if(sel.options[i].value === prevValue){ sel.selectedIndex = i; break; } } }
+        });
+      }
+    }
+  });
+}
+
+// ============== DEFECTO (CONTROL CALIDAD) MODAL ==============
+function openDefectoModal(){
+  const prodPickerHtml = buildProductPicker("df_prod","df_prod_q","Buscar producto...");
+  const motOpts = ['<option value="">-- Elegir motivo --</option>']
+    .concat(MOTIVOS_DEFECTO.map(function(r){ return '<option value="'+escapeHtml(r)+'">'+escapeHtml(r)+'</option>'; }))
+    .join("");
+  const body = ''
+    + '<div class="fm-row"><label for="df_prod_q">Producto</label>'
+    +   prodPickerHtml
+    + '</div>'
+    + '<div class="fm-grid-2">'
+    +   '<div class="fm-row"><label for="df_cant">Cantidad</label><input id="df_cant" class="fm-input" type="number" min="1" step="1" inputmode="numeric" value="1"></div>'
+    +   '<div class="fm-row"><label for="df_mot">Motivo</label><select id="df_mot" class="fm-input">'+motOpts+'</select></div>'
+    + '</div>'
+    + '<div class="fm-row"><label for="df_coment">Comentarios (opcional)</label>'
+    +   '<textarea id="df_coment" class="fm-input" rows="2" placeholder="Detalles del defecto, lote, turno..."></textarea>'
+    + '</div>';
+  openFormodal({
+    title: "Producto que NO cumple calidad",
+    sub: "Vencido, etiqueta danada, tapa, etc.",
+    theme: "calidad",
+    bodyHtml: body,
+    onRender: function(){ wireProductFilter("df_prod","df_prod_q"); },
+    onSave: function(){
+      const prodSel = $("df_prod");
+      const sku = prodSel.value;
+      const nombre = sku ? (prodSel.options[prodSel.selectedIndex].textContent || "").replace(/\s*\([^)]*\)\s*$/,'') : "";
+      const cant = parseInt($("df_cant").value||"0",10) || 0;
+      const motivo = $("df_mot").value;
+      const coment = $("df_coment").value.trim();
+      if(!sku){ alert("Selecciona un producto."); return false; }
+      if(cant <= 0){ alert("La cantidad debe ser mayor a 0."); return false; }
+      if(!motivo){ alert("Selecciona un motivo."); return false; }
+      state.defectuosos.push({ sku:sku, producto:nombre, cantidad:cant, motivo:motivo, comentarios:coment });
+      renderDefectuosos();
+    }
+  });
+}
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("service-worker.js").catch(function(err){ console.log("SW:", err); });
+  });
+}
+
+updateHeader(); updateSteps(); updateFooter();
+</script>
+</body>
+</html>
